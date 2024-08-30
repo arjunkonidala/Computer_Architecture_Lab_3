@@ -20,7 +20,7 @@ char bx(char *a)
                 y = 'a';
            }
 
-        y += (sum % 10);    // ????????
+        y += (sum % 10);    
 
         return y;
 
@@ -173,7 +173,13 @@ int ifif(string s)
                 return 1;
             }
 
-            else if (s == "lb")
+            return 0;
+        }
+
+
+int ifilf(string s)
+         {
+             else if (s == "lb")
             {
                 return 1;
             }
@@ -207,9 +213,8 @@ int ifif(string s)
             {
                 return 1;
             }
+         }
 
-            return 0;
-        }
 
 
 int ifsf(string s)
@@ -589,3 +594,4 @@ int main()
         return 0;
 
     }
+
