@@ -20,7 +20,7 @@ char bx(char *a)
                 y = 'a';
            }
 
-        y += (sum % 10);
+        y += (sum % 10);    
 
         return y;
 
@@ -57,7 +57,6 @@ struct s2
 
 s2 aliastable[65] = { 
                           {"x0", 0}, {"x1", 1}, {"x2", 2}, {"x3", 3}, {"x4", 4}, {"x5", 5}, {"x6", 6}, {"x7", 7}, {"x8", 8}, {"x9", 9}, {"x10", 10}, {"x11", 11}, {"x12", 12}, {"x13", 13}, {"x14", 14}, {"x15", 15}, {"x16", 16}, {"x17", 17}, {"x18", 18}, {"x19", 19}, {"x20", 20}, {"x21", 21}, {"x22", 22}, {"x23", 23}, {"x24", 24}, {"x25", 25}, {"x26", 26}, {"x27", 27}, {"x28", 28}, {"x29", 29}, {"x30", 30}, {"x31", 31}, {"zero", 0}, {"ra", 1}, {"sp", 2}, {"gp", 3}, {"tp", 4}, {"t0", 5}, {"t1", 6}, {"t2", 7}, {"s0", 8},{"fp",8}, {"s1", 9}, {"a0", 10}, {"a1", 11}, {"a2", 12}, {"a3", 13}, {"a4", 14}, {"a5", 15}, {"a6", 16}, {"a7", 17}, {"t3", 28}, {"t4", 29}, {"t5", 30}, {"t6", 31}, {"s2", 18}, {"s3", 19}, {"s4", 20}, {"s5", 21}, {"s6", 22}, {"s7", 23}, {"s8", 24}, {"s9", 25}, {"s10", 26}, {"s11", 27}
-
                     };
 
 
@@ -69,7 +68,6 @@ int ifrf(string s)
         {
             if (s == "add")
             {
-
                 return 1;
             }
              
@@ -127,7 +125,6 @@ int ifif(string s)
         {
             if (s == "addi")
             {
-
                 return 1;
             }
             
@@ -171,6 +168,133 @@ int ifif(string s)
                 return 1;
             }
 
+            else if (s == "jalr")
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+
+int ifilf(string s)
+         {
+             else if (s == "lb")
+            {
+                return 1;
+            }
+
+            else if (s == "lh")
+            {
+              return  1;
+            }
+
+            else if (s == "lw")
+            {
+                return 1;
+            }
+
+            else if (s == "ld")
+            {
+                return 1;
+            }
+
+            else if (s == "lbu")
+            {
+                return 1;
+            }
+
+            else if (s == "lhu")
+            {
+                return 1;
+            }
+
+            else if (s == "lwu")
+            {
+                return 1;
+            }
+         }
+
+
+
+int ifsf(string s)
+        {
+            if (s == "sb")
+            {
+                return 1;
+            }
+            
+            else if (s == "sh")
+            {
+                return 1;
+            }
+
+            else if (s == "sw")
+            {
+                return 1;
+            } 
+
+            else if (s == "sd")
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+
+int ifbf(string s)
+        {
+            if (s == "beq")
+            {
+                return 1;
+            }
+            
+            else if (s == "bne")
+            {
+                return 1;
+            }
+
+            else if (s == "blt")
+            {
+                return 1;
+            } 
+
+            else if (s == "bge")
+            {
+                return 1;
+            }
+
+            else if (s == "bltu")
+            {
+                return 1;
+            }
+
+            else if (s == "bgeu")
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+int ifuf(string s)
+        {
+            if (s == "lui")
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+int ifujf(string s)
+        {
+            if (s == "jal")
+            {
+                return 1;
+            }
+            
             return 0;
         }
 
@@ -338,17 +462,17 @@ int main()
                             {
                                 if (rs1 == aliastable[i].a)
                                 {
-                                    rs1i = aliastable[i].b;e+=7;
+                                    rs1i = aliastable[i].b;e+=1;
                                 }
 
                                 if (rs2 == aliastable[i].a)
                                 {
-                                    rs2i = aliastable[i].b;e+=9;
+                                    rs2i = aliastable[i].b;e+=1;
                                 }
 
                                 if (rd == aliastable[i].a)
                                 {
-                                    rdi = aliastable[i].b;e+=55;
+                                    rdi = aliastable[i].b;e+=1;
                                 }
 
                             }
