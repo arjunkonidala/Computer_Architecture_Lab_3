@@ -366,13 +366,36 @@ string rformat(s3 s, int a, int b, int c)
             }
 
 
-string iformat(s3 s,int a,int b,int c)
-            {
-                string a1;
-                return a1;
-            }
-
-
+string iformat(s3 s,int a,int b,int c){
+    int f=s.f3;
+    if(s.f7==0){
+        string f3(3,'0');
+        for (int i = 0; i < 3; i++)
+    {
+        f3[2 - i] = f & 1;
+        f = f >> 1;
+    }
+    f = a;
+    string rd(5,'0');
+    for (int i = 0; i < 5; i++)
+    {
+        rd[4 - i] = (f & 1);
+        f = f >> 1;
+    }
+    f = b;string rs1(5,'0');
+    for (int i = 0; i < 5; i++)
+    {
+        rs1[4 - i] = f & 1;
+        f = f >> 1;
+    }
+    string opcode = "0110011";
+    for (int i = 0; i < 7; i++)
+    {
+        opcode[i] -= '0';
+    }
+    }
+    
+}
 
 
 
@@ -581,6 +604,19 @@ int main()
                                             data = iftable[i];
                                             break;
                                         }
+                                }
+
+                            int sign=0;
+                            if(imm[0]=='-'){
+                                sign=1;
+                            }int immv =0;
+                            for(int i=0;i<imm.size();i++){
+                                if(imm[i]=='-'){
+                                    continue;
+                                }
+                                else{
+
+
                                 }
 
                             file2 << iformat(data, rdi, rs1i,immi) << endl;
