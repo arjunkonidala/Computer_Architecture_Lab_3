@@ -26,7 +26,7 @@ char bx(char *a)
 
     }
 
-struct s3
+struct s3  // For R and I formats
     {
         s3(string a, int b, int c)
           {
@@ -48,7 +48,6 @@ struct s3
 
     };
 
-
 struct s2
      {
         string a;
@@ -62,7 +61,20 @@ s2 aliastable[65] = {
 
 s3 rftable[10];
 
-s3 iftable[7];
+s3 iftable[9];
+
+s3 ilftable[7];
+
+s3 ijftable[1];
+
+s3 sftable[4];
+
+s3 bftable[6];
+
+s3 uftable[1];
+
+s3 ujftable[1];
+
 
 int ifrf(string s)
         {
@@ -168,11 +180,6 @@ int ifif(string s)
                 return 1;
             }
 
-            else if (s == "jalr")
-            {
-                return 1;
-            }
-
             return 0;
         }
 
@@ -210,6 +217,15 @@ int ifilf(string s)
             }
 
             else if (s == "lwu")
+            {
+                return 1;
+            }
+         }
+
+
+int ifijf(string s)
+         {
+            if (s == "jalr")
             {
                 return 1;
             }
@@ -367,12 +383,80 @@ string rformat(s3 s, int a, int b, int c)
 
 
 string iformat(s3 s,int a,int b,int c)
-            {
-                string a1;
-                return a1;
-            }
+              {
+                int f = s.f3;
+
+                if(s.f7==0)
+                  {
+                    string f3(3,'0');
+                    for (int i = 0; i < 3; i++)
+                        {
+                           f3[2 - i] = f & 1;
+                           f = f >> 1;
+                        }
+
+                    f = a;
+                    string rd(5,'0');
+                     
+                    for (int i = 0; i < 5; i++)
+                        {
+                          rd[4 - i] = (f & 1);
+                          f = f >> 1;
+                        }
+
+                    f = b;
+                    string rs1(5,'0');
+
+                    for (int i = 0; i < 5; i++)
+                        {
+                            rs1[4 - i] = f & 1;
+                            f = f >> 1;
+                        }
+
+                    string opcode = "0110011";
+
+                    for (int i = 0; i < 7; i++)
+                        {
+                            opcode[i] -= '0';
+                        }
+                  }
+    
+              }
 
 
+string ilformat()
+               {
+                 
+               }
+
+
+string ijformat()
+                {
+
+                }
+
+
+string sformat()
+              {
+
+              } 
+
+string bformat()
+              {
+
+              }
+
+        
+string uformat()
+              {
+
+              }
+
+
+string ujformat()
+               {
+
+               }
 
 
 
@@ -504,13 +588,15 @@ int main()
                             iftable[4] = s3("andi", 0x7, 0x00);
                             iftable[5] = s3("slli", 0x1, 0x00);
                             iftable[6] = s3("srli", 0x5, 0x00);
+                            iftable[7] = s3("slti", , );
+                            iftable[8] = s3("sltui", , );
                             s3 data("0", 0, 0);
 
                             int k = 0;
                             string rd, rs1, imm;
                             int rdi = -1, rs1i = -1, immi = -1;
 
-                            for (; k < ins.size(); k++)
+                            for (  ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ' ')
                                         {
@@ -519,7 +605,7 @@ int main()
                                         }
                                 }
 
-                            for (; k < ins.size(); k++)
+                            for (  ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ',')
                                         {
@@ -530,7 +616,7 @@ int main()
                                     rd.push_back(ins[k]);
                                 }
 
-                            for (; k < ins.size(); k++)
+                            for (  ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ',')
                                         {
@@ -540,7 +626,8 @@ int main()
 
                                     rs1.push_back(ins[k]);
                                 }
-                            for ( ; k < ins.size(); k++)
+
+                            for (  ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ',')
                                         {
@@ -583,15 +670,93 @@ int main()
                                         }
                                 }
 
-                            file2 << iformat(data, rdi, rs1i,immi) << endl;
+                            int sign=0;
+
+                            if(imm[0]=='-')
+                              {
+                                sign=1;
+                              }
+                            
+                            int immv =0;
+
+                            for(int i=0;i<imm.size();i++)
+                               {
+                                  if(imm[i]=='-')
+                                    {
+                                      continue;
+                                    }
+                                     
+                                  else
+                                      {
+
+                                      }
+
+                                  file2 << iformat(data, rdi, rs1i,immi) << endl;
+                               }
+
+                            line++;
+
+                    }
+
+
+                 else if(ifilf(m))
+                        {
+                                ilftable[0] = s3("lb", 0, 0);
+                                ilftable[1] = s3("lh", 0x5,1);
+                                ilftable[2] = s3("lw", 0x4, 0x00);
+                                ilftable[3] = s3("ld", 0x6, 0x00);
+                                ilftable[4] = s3("lbu", 0x7, 0x00);
+                                ilftable[5] = s3("lhu", 0x1, 0x00);
+                                ilftable[6] = s3("lwu", 0x5, 0x00);
+                                s3 data("0", 0, 0);
+
+                        } 
+
+
+                 else if(ifijf(m))
+                        {
+                                 ijftable[0] = s3("jalr", , );
+                                 s3 data("0", 0, 0);
+
+                        } 
+                 
+                 else if(ifsf(m))
+                        {
+                                 sftable[0] = s3("sb", 0x20, );
+                                 sftable[1] = s3("sh", 0x21, );
+                                 sftable[2] = s3("sw", 0x23, );
+                                 sftable[3] = s3("sd", 0x25, );
+                                 s3 data("0", 0, 0);
+                                 
                         }
 
-                line++;
+                 else if(ifbf(m))
+                        {
+                                 bftable[0] = s3("beq", , );
+                                 bftable[1] = s3("bne", , );
+                                 bftable[2] = s3("blt", , );
+                                 bftable[3] = s3("bge", , );
+                                 bftable[4] = s3("bltu", , );
+                                 bftable[5] = s3("bgeu", , );
+                                 s3 data("0", 0, 0);
+                            
+                        }
 
-             }
+                 else if(ifuf(m))
+                        {
+                                 uftable[0] = s3("lui", , );
+                                 s3 data("0", 0, 0);
+                        }
+                      
+                 else if(ifujf(m))
+                        {
+                                  ujftable[0] = s3("jalr", , );
+                                  s3 data("0", 0, 0);
+                        }     
+
+
 
 
         return 0;
 
     }
-
