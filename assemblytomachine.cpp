@@ -26,7 +26,7 @@ char bx(char *a)
 
     }
 
-struct s3
+struct s3  // For R and I formats
     {
         s3(string a, int b, int c)
           {
@@ -48,7 +48,6 @@ struct s3
 
     };
 
-
 struct s2
      {
         string a;
@@ -64,6 +63,7 @@ s3 rftable[10];
 
 s3 iftable[7];
 
+s3 
 int ifrf(string s)
         {
             if (s == "add")
