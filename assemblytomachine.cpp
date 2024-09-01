@@ -547,7 +547,7 @@ int main()
 
                             }
 
-                        if(e!=71)
+                        if(e!=3)
                         {
                             file2<<"error in line "<<line<<"\n";
                             return 0;
