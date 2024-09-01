@@ -487,7 +487,7 @@ string ijformat()
 string sformat(s3 s, int a, int b, int c)
               { 
                 string f3(3, '0');
-                int f = s.f3
+                int f = s.f3;
 
                 for (int i = 0; i < 3; i++)
                     {
@@ -502,7 +502,7 @@ string sformat(s3 s, int a, int b, int c)
 
                 for (int i = 0; i < 5; i++)
                     {
-                        rd[4 - i] = (f & 1);
+                        rs1[4 - i] = (f & 1);
                         f = f >> 1;
                     }
                 
@@ -510,7 +510,7 @@ string sformat(s3 s, int a, int b, int c)
 
                 for (int i = 0; i < 5; i++)
                     {
-                        rs1[4 - i] = f & 1;
+                        rs2[4 - i] = f & 1;
                         f = f >> 1;
                     }
                 
@@ -534,7 +534,7 @@ string sformat(s3 s, int a, int b, int c)
                     imm2[i-5] = imm[i];
                    }
                 
-                string bins = imm2 + rs2 + rs1 + imm1 + opcode;
+                string bin = imm2 + rs2 + rs1 + imm1 + opcode;
                                             
 
                 string h(8, '0');
