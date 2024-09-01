@@ -186,7 +186,7 @@ int ifif(string s)
 
 int ifilf(string s)
          {
-             else if (s == "lb")
+             if (s == "lb")
             {
                 return 1;
             }
@@ -220,6 +220,8 @@ int ifilf(string s)
             {
                 return 1;
             }
+
+            return 0;
          }
 
 
@@ -229,6 +231,9 @@ int ifijf(string s)
             {
                 return 1;
             }
+
+            return 0;
+
          }
 
 
@@ -317,69 +322,69 @@ int ifujf(string s)
 
 
 string rformat(s3 s, int a, int b, int c)
-            {
-                string f3(3, '0');
-                int f = s.f3;
+                {
+                    string f3(3, '0');
+                    int f = s.f3;
 
-                for (int i = 0; i < 3; i++)
-                    {
-                        f3[2 - i] = f & 1;
-                        f = f >> 1;
-                    }
-                
-                f = s.f7;
-                string f7(7, '0');
+                    for (int i = 0; i < 3; i++)
+                        {
+                            f3[2 - i] = f & 1;
+                            f = f >> 1;
+                        }
+                    
+                    f = s.f7;
+                    string f7(7, '0');
 
-                for (int i = 0; i < 7; i++)
-                    {
-                        f7[6 - i] = (f & 1);
-                        f = f >> 1;
-                    }
+                    for (int i = 0; i < 7; i++)
+                        {
+                            f7[6 - i] = (f & 1);
+                            f = f >> 1;
+                        }
 
-                string rd(5, '0');
-                string rs1(5, '0');
-                string rs2(5, '0');
-                f = a;
+                    string rd(5, '0');
+                    string rs1(5, '0');
+                    string rs2(5, '0');
+                    f = a;
 
-                for (int i = 0; i < 5; i++)
-                    {
-                        rd[4 - i] = (f & 1);
-                        f = f >> 1;
-                    }
+                    for (int i = 0; i < 5; i++)
+                        {
+                            rd[4 - i] = (f & 1);
+                            f = f >> 1;
+                        }
 
-                f = b;
+                    f = b;
 
-                for (int i = 0; i < 5; i++)
-                    {
-                        rs1[4 - i] = f & 1;
-                        f = f >> 1;
-                    }
+                    for (int i = 0; i < 5; i++)
+                        {
+                            rs1[4 - i] = f & 1;
+                            f = f >> 1;
+                        }
 
-                f = c;
+                    f = c;
 
-                for (int i = 0; i < 5; i++)
-                    {
-                        rs2[4 - i] = f & 1 ;
-                        f = f >> 1;
-                    }
+                    for (int i = 0; i < 5; i++)
+                        {
+                            rs2[4 - i] = f & 1 ;
+                            f = f >> 1;
+                        }
 
-                string opcode = "0110011";
+                    string opcode = "0110011";
 
-                for (int i = 0; i < 7; i++)
-                    {
-                        opcode[i] -= '0';
-                    }
+                    for (int i = 0; i < 7; i++)
+                        {
+                            opcode[i] -= '0';
+                        }
 
-                string bi = f7 + rs2 + rs1 + f3 + rd + opcode;
+                    string bi = f7 + rs2 + rs1 + f3 + rd + opcode;
 
-                string h(8, '0');
+                    string h(8, '0');
 
-                for (int i = 0; i < 8; i++)
-                    {
-                        h[i] = bx(&(bi[0]) + 4 * i);
-                    }
-                return h;
-            }
+                    for (int i = 0; i < 8; i++)
+                        {
+                            h[i] = bx(&(bi[0]) + 4 * i);
+                        }
+                    return h;
+                }
 
 
 string iformat(s3 s,int a,int b,int c)
