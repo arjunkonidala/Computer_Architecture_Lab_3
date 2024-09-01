@@ -473,7 +473,7 @@ string iformat(s3 s,int a,int b,int c)
 
 string ilformat()
                {
-                  
+                 
                }
 
 
@@ -825,22 +825,217 @@ int main()
                     }
                     
 
-                 else if(ifilf(m))
+                /* else if(ifilf(m))
                         {                             
-                               
+                                ilftable[0] = s3("lb", 0,0 );
+                                ilftable[1] = s3("lh", 0x1,0);
+                                ilftable[2] = s3("lw", 0x2,0 );
+                                ilftable[3] = s3("ld", 0x3,0 );
+                                ilftable[4] = s3("lbu", 0x4,1);
+                                ilftable[5] = s3("lhu", 0x5,1 );
+                                ilftable[6] = s3("lwu", 0x6,1 );
+                                s3 data("0", 0, 0);
+                                int k=0;
+                                string rd,rs1,imm;
+                                int rdi,rs1i;
+                                for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ' ')
+                                        {
+                                            k++;
+                                            break;
+                                        }
+                                }
+
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ',')
+                                        {
+                                            k+=2;
+                                            break;
+                                        }
+
+                                    rd.push_back(ins[k]);
+                                }
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == '(')
+                                        {
+                                            k++;
+                                            break;
+                                        }
+
+                                    imm.push_back(ins[k]);
+                                }
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ')')
+                                        {
+                                            k++;
+                                            break;
+                                        }
+
+                                rs1.push_back(ins[k]);
+                                }
+                                int e=0;
+                                for (int i = 0; i < 65; i++)
+                                {
+                                    if (rs1 == aliastable[i].a)
+                                        {
+                                            rs1i = aliastable[i].b;e+=7;
+                                        }
+                                    
+                                    if (rd == aliastable[i].a)
+                                        {
+                                            rdi = aliastable[i].b;e+=55;
+                                        }
+
+                                }
+                                
+                                if(e!=62)
+                                {
+                                    file2<<"error in line "<<line<<"\n";
+
+                                    return 0;
+                                }
+
+                            for (int i = 0; i < 7; i++)
+                                {
+                                    if (ilftable[i].inst == m)
+                                        {
+                                            data = ilftable[i];
+                                            break;
+                                        }
+                                }
+                                
+
+                            int sign=0;
+
+                            if(imm[0]=='-')
+                              {
+                                sign=1;
+                              }
+                            
+                            int immv =0;
+                            int power=1;
+                            for(int i=imm.size()-1;i>=sign;i--)
+                               {
+                                  immv+=(imm[i]-'0')*power;
+                                  power=power*10;
+                                
+                                  
+                               }
+                            if(sign)immv=-immv;
+                            if(!(immv>=-2048&&immv<=2047)){
+                                file2<<"immediate value out of bound line "<<line<<endl;
                             }
+                        file2<<ilformat(data,rdi,rs1i,immv)<<endl;
+                            line++;
+
+                            
 
                         } 
 
-                /* 
+
                  else if(ifijf(m))
                         {
-                                 ijftable[0] = s3("jalr", 0x0, );
+                                 ijftable[0] = s3("jalr", 0x0, 0);
                                  s3 data("0", 0, 0);
+                                 
+                                 data=ijftable[0];
+                                int k=0;
+                                string rd,rs1,imm;
+                                int rdi,rs1i;
+                                for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ' ')
+                                        {
+                                            k++;
+                                            break;
+                                        }
+                                }
+
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ',')
+                                        {
+                                            k+=2;
+                                            break;
+                                        }
+
+                                    rd.push_back(ins[k]);
+                                }
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ',')
+                                        {
+                                            k+=2;
+                                            break;
+                                        }
+
+                                    rs1.push_back(ins[k]);
+                                }
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ',')
+                                        {
+                                            k++;
+                                            break;
+                                        }
+
+                                    imm.push_back(ins[k]);
+                                }
+                                int e=0;
+                                for (int i = 0; i < 65; i++)
+                                {
+                                    if (rs1 == aliastable[i].a)
+                                        {
+                                            rs1i = aliastable[i].b;e+=7;
+                                        }
+                                    
+                                    if (rd == aliastable[i].a)
+                                        {
+                                            rdi = aliastable[i].b;e+=55;
+                                        }
+
+                                }
+                                cout<<e;
+                                if(e!=62)
+                                {
+                                    file2<<"error in line "<<line<<"\n";
+
+                                    return 0;
+                                }
+
+                            
+                                
+
+                            int sign=0;
+
+                            if(imm[0]=='-')
+                              {
+                                sign=1;
+                              }
+                            
+                            int immv =0;
+                            int power=1;
+                            for(int i=imm.size()-1;i>=sign;i--)
+                               {
+                                  immv+=(imm[i]-'0')*power;
+                                  power=power*10;
+                                
+                                  
+                               }
+                            if(sign)immv=-immv;cout<<immv;
+                            if(!(immv>=-2048&&immv<=2047))
+                            {
+                                file2<<"immediate value out of bound in line "<<line<<endl;
+                            }
+                            file2<<ijformat(data,rdi,rs1i,immv)<<endl;
+                            line++;
 
                         } 
-                 */
-
+                 
                  else if(ifsf(m))
                         {
                                  sftable[0] = s3("sb", 0x1, );
@@ -848,16 +1043,9 @@ int main()
                                  sftable[2] = s3("sw", 0x3, );
                                  sftable[3] = s3("sd", 0x4, );
                                  s3 data("0", 0, 0);
-
-
-                            
-
-
-
                                  
                         }
 
-                /*
                  else if(ifbf(m))
                         {
                                  bftable[0] = s3("beq", 0x0, );
