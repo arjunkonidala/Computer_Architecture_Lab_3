@@ -168,7 +168,7 @@ int ifif(string s)
 
 int ifilf(string s)
          {
-             else if (s == "lb")
+              if (s == "lb")
             {
                 return 1;
             }
@@ -202,6 +202,8 @@ int ifilf(string s)
             {
                 return 1;
             }
+
+            return 0;
          }
 
 
@@ -211,6 +213,9 @@ int ifijf(string s)
             {
                 return 1;
             }
+
+            return 0;
+
          }
 
 
