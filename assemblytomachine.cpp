@@ -26,7 +26,7 @@ char bx(char *a)
 
     }
 
-struct s3  
+struct s3  // For R and I formats
     {
         s3(string a, int b, int c)
           {
@@ -54,15 +54,14 @@ struct s2
         int b;
      };
 
-
 s2 aliastable[65] = { 
                           {"x0", 0}, {"x1", 1}, {"x2", 2}, {"x3", 3}, {"x4", 4}, {"x5", 5}, {"x6", 6}, {"x7", 7}, {"x8", 8}, {"x9", 9}, {"x10", 10}, {"x11", 11}, {"x12", 12}, {"x13", 13}, {"x14", 14}, {"x15", 15}, {"x16", 16}, {"x17", 17}, {"x18", 18}, {"x19", 19}, {"x20", 20}, {"x21", 21}, {"x22", 22}, {"x23", 23}, {"x24", 24}, {"x25", 25}, {"x26", 26}, {"x27", 27}, {"x28", 28}, {"x29", 29}, {"x30", 30}, {"x31", 31}, {"zero", 0}, {"ra", 1}, {"sp", 2}, {"gp", 3}, {"tp", 4}, {"t0", 5}, {"t1", 6}, {"t2", 7}, {"s0", 8},{"fp",8}, {"s1", 9}, {"a0", 10}, {"a1", 11}, {"a2", 12}, {"a3", 13}, {"a4", 14}, {"a5", 15}, {"a6", 16}, {"a7", 17}, {"t3", 28}, {"t4", 29}, {"t5", 30}, {"t6", 31}, {"s2", 18}, {"s3", 19}, {"s4", 20}, {"s5", 21}, {"s6", 22}, {"s7", 23}, {"s8", 24}, {"s9", 25}, {"s10", 26}, {"s11", 27}
                     };
 
 
-s3 rftable[8];
+s3 rftable[10];
 
-s3 iftable[7];
+s3 iftable[9];
 
 s3 ilftable[7];
 
@@ -119,6 +118,15 @@ int ifrf(string s)
                 return 1;
             }
             
+            else if (s == "slt")
+            {
+                return 1;
+            }
+            
+            else if (s == "sltu")
+            {
+                return 1;
+            }
             
             return 0;
         
@@ -162,6 +170,15 @@ int ifif(string s)
                 return 1;
             }
 
+            else if (s == "slti")
+            {
+                return 1;
+            }
+
+            else if (s == "sltiu")
+            {
+                return 1;
+            }
 
             return 0;
         }
@@ -169,7 +186,7 @@ int ifif(string s)
 
 int ifilf(string s)
          {
-              if (s == "lb")
+             else if (s == "lb")
             {
                 return 1;
             }
@@ -203,8 +220,6 @@ int ifilf(string s)
             {
                 return 1;
             }
-
-            return 0;
          }
 
 
@@ -214,9 +229,6 @@ int ifijf(string s)
             {
                 return 1;
             }
-
-            return 0;
-
          }
 
 
@@ -480,7 +492,8 @@ int main()
                         rftable[5] = s3("sll", 0x1, 0x00);
                         rftable[6] = s3("srl", 0x5, 0x00);
                         rftable[7] = s3("sra", 0x5, 0x20);
-
+                        rftable[8] = s3("slt", 0x2, 0x00);
+                        rftable[9] = s3("sltu", 3, 0x00);
                         s3 data("0", 0, 0);
 
                         int k = 0;
@@ -548,7 +561,7 @@ int main()
 
                             }
 
-                        if(e!=3)
+                        if(e!=71)
                         {
                             file2<<"error in line "<<line<<"\n";
                             return 0;
@@ -575,8 +588,10 @@ int main()
                             iftable[4] = s3("andi", 0x7, 0x00);
                             iftable[5] = s3("slli", 0x1, 0x00);
                             iftable[6] = s3("srli", 0x5, 0x00);
+                            iftable[7] = s3("slti", 0x2, );
+                            iftable[8] = s3("sltiu", 0x3, );
                             s3 data("0", 0, 0);
-
+ 
                             int k = 0;
                             string rd, rs1, imm;
                             int rdi = -1, rs1i = -1, immi = -1;
