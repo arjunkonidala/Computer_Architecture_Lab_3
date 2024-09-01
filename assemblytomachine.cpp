@@ -59,7 +59,7 @@ s2 aliastable[65] = {
                     };
 
 
-s3 rftable[10];
+s3 rftable[8];
 
 s3 iftable[9];
 
@@ -118,15 +118,6 @@ int ifrf(string s)
                 return 1;
             }
             
-            else if (s == "slt")
-            {
-                return 1;
-            }
-            
-            else if (s == "sltu")
-            {
-                return 1;
-            }
             
             return 0;
         
@@ -170,15 +161,6 @@ int ifif(string s)
                 return 1;
             }
 
-            else if (s == "slti")
-            {
-                return 1;
-            }
-
-            else if (s == "sltiu")
-            {
-                return 1;
-            }
 
             return 0;
         }
@@ -492,8 +474,7 @@ int main()
                         rftable[5] = s3("sll", 0x1, 0x00);
                         rftable[6] = s3("srl", 0x5, 0x00);
                         rftable[7] = s3("sra", 0x5, 0x20);
-                        rftable[8] = s3("slt", 0x2, 0x00);
-                        rftable[9] = s3("sltu", 3, 0x00);
+
                         s3 data("0", 0, 0);
 
                         int k = 0;
@@ -588,8 +569,6 @@ int main()
                             iftable[4] = s3("andi", 0x7, 0x00);
                             iftable[5] = s3("slli", 0x1, 0x00);
                             iftable[6] = s3("srli", 0x5, 0x00);
-                            iftable[7] = s3("slti", 0x2, );
-                            iftable[8] = s3("sltiu", 0x3, );
                             s3 data("0", 0, 0);
 
                             int k = 0;
