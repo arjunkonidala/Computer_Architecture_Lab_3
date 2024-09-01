@@ -436,7 +436,7 @@ string iformat(s3 s,int a,int b,int c)
 
                     string imm(12,'0');
 
-                    if(f == 0)
+                    if(f ==0)
                       {
                          imm = d2b(c,12);
                       }  
