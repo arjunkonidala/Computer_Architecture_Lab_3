@@ -175,7 +175,7 @@ int ifif(string s)
                 return 1;
             }
 
-            else if (s == "sltui")
+            else if (s == "sltiu")
             {
                 return 1;
             }
@@ -588,8 +588,8 @@ int main()
                             iftable[4] = s3("andi", 0x7, 0x00);
                             iftable[5] = s3("slli", 0x1, 0x00);
                             iftable[6] = s3("srli", 0x5, 0x00);
-                            iftable[7] = s3("slti", , );
-                            iftable[8] = s3("sltui", , );
+                            iftable[7] = s3("slti", 0x2, );
+                            iftable[8] = s3("sltiu", 0x3, );
                             s3 data("0", 0, 0);
 
                             int k = 0;
@@ -701,13 +701,13 @@ int main()
 
                  else if(ifilf(m))
                         {
-                                ilftable[0] = s3("lb", 0, 0);
-                                ilftable[1] = s3("lh", 0x5,1);
-                                ilftable[2] = s3("lw", 0x4, 0x00);
-                                ilftable[3] = s3("ld", 0x6, 0x00);
-                                ilftable[4] = s3("lbu", 0x7, 0x00);
-                                ilftable[5] = s3("lhu", 0x1, 0x00);
-                                ilftable[6] = s3("lwu", 0x5, 0x00);
+                                ilftable[0] = s3("lb", 0, );
+                                ilftable[1] = s3("lh", 0x1,);
+                                ilftable[2] = s3("lw", 0x2, );
+                                ilftable[3] = s3("ld", 0x3, );
+                                ilftable[4] = s3("lbu", 0x4, );
+                                ilftable[5] = s3("lhu", 0x5, );
+                                ilftable[6] = s3("lwu", 0x6, );
                                 s3 data("0", 0, 0);
 
                         } 
@@ -715,29 +715,29 @@ int main()
 
                  else if(ifijf(m))
                         {
-                                 ijftable[0] = s3("jalr", , );
+                                 ijftable[0] = s3("jalr", 0x0, );
                                  s3 data("0", 0, 0);
 
                         } 
                  
                  else if(ifsf(m))
                         {
-                                 sftable[0] = s3("sb", 0x20, );
-                                 sftable[1] = s3("sh", 0x21, );
-                                 sftable[2] = s3("sw", 0x23, );
-                                 sftable[3] = s3("sd", 0x25, );
+                                 sftable[0] = s3("sb", 0x1, );
+                                 sftable[1] = s3("sh", 0x2, );
+                                 sftable[2] = s3("sw", 0x3, );
+                                 sftable[3] = s3("sd", 0x4, );
                                  s3 data("0", 0, 0);
                                  
                         }
 
                  else if(ifbf(m))
                         {
-                                 bftable[0] = s3("beq", , );
-                                 bftable[1] = s3("bne", , );
-                                 bftable[2] = s3("blt", , );
-                                 bftable[3] = s3("bge", , );
-                                 bftable[4] = s3("bltu", , );
-                                 bftable[5] = s3("bgeu", , );
+                                 bftable[0] = s3("beq", 0x0, );
+                                 bftable[1] = s3("bne", 0x1, );
+                                 bftable[2] = s3("blt", 0x4, );
+                                 bftable[3] = s3("bge", 0x5, );
+                                 bftable[4] = s3("bltu", 0x6, );
+                                 bftable[5] = s3("bgeu", 0x7, );
                                  s3 data("0", 0, 0);
                             
                         }
@@ -750,7 +750,7 @@ int main()
                       
                  else if(ifujf(m))
                         {
-                                  ujftable[0] = s3("jalr", , );
+                                  ujftable[0] = s3("jalr", 0x0, );
                                   s3 data("0", 0, 0);
                         }     
 
