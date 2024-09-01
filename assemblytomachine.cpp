@@ -520,10 +520,22 @@ string sformat(s3 s, int a, int b, int c)
                     {
                         opcode[i] -= '0';
                     }
+                 
+                string imm = d2b(c,12);
+                string imm1,imm2;
+
+                for(int i=0;i<5;i++)
+                   {
+                     imm1[i] = imm[i];
+                   }
                 
+                for(int i=5;i<12;i++)
+                   {
+                    imm2[i-5] = imm[i];
+                   }
                 
-                
-                
+                string bins = imm2 + rs2 + rs1 + imm1 + opcode;
+                                            
 
                 string h(8, '0');
                     
@@ -541,7 +553,7 @@ string sformat(s3 s, int a, int b, int c)
 
 string bformat()
               {
-
+                 
               }
 
         
