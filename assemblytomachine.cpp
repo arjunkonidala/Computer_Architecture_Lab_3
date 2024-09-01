@@ -17,7 +17,7 @@ char bx(char *a)
 
         if (sum / 10)
            {
-                y = 'a';
+                y = 'a';`
            }
 
         y += (sum % 10);    
@@ -383,6 +383,7 @@ string rformat(s3 s, int a, int b, int c)
                         {
                             h[i] = bx(&(bi[0]) + 4 * i);
                         }
+                    
                     return h;
                 }
 
