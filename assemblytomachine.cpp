@@ -2,22 +2,31 @@
 #include <fstream>
 using namespace std;
 
-string d2b(int num,int nob){
-    if(num<0){
-        int m=1;
-        for(int i=0;i<nob;i++){
-            m*=2;
-        }
-        num+=m;
-    }
-    string bin(nob,'0');
-    for(int i=0;i<nob;i++){
-        bin[nob-1-i]=num&1;
-        num=num>>1;
-    }
-    return bin;
+string d2b(int num,int nob)
+          {
+            if(num<0)
+              {
+                 int m=1;
+                 
+                 for(int i=0;i<nob;i++)
+                    {
+                       m*=2;
+                    }
+                 num+=m;
+              }
+            
+            string bin(nob,'0');
+            
+            for(int i=0;i<nob;i++)
+               {
+                  bin[nob-1-i]=num&1;
+                  num=num>>1;
+               }
+             
+            return bin;
 
-}
+          }
+
 char bx(char *a)
     {
         int x = 1;
