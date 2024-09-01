@@ -7,7 +7,7 @@ string d2b(int num,int nob)
             if(num<0)
               {
                  int m=1;
-                 
+
                  for(int i=0;i<nob;i++)
                     {
                        m*=2;
@@ -392,10 +392,9 @@ string rformat(s3 s, int a, int b, int c)
 
 string iformat(s3 s,int a,int b,int c)
               {
-                int f = s.f3;
-
-                
+                    int f = s.f3;                
                     string f3(3,'0');
+
                     for (int i = 0; i < 3; i++)
                         {
                            f3[2 - i] = f & 1;
@@ -426,34 +425,49 @@ string iformat(s3 s,int a,int b,int c)
                         {
                             opcode[i] -= '0';
                         }
+
                     f=s.f7;
                     string dummy="000000";
-                    for(int i=0;i<6;i++){
-                        dummy[i]-='0';
-                    }
+
+                    for(int i=0;i<6;i++)
+                       {
+                          dummy[i]-='0';
+                       }
+
                     string imm(12,'0');
-                    if(f==0){
-                        imm=d2b(c,12);
-                    }   
-                    else if(f==1){
-                        string dummy="000000";
-                    for(int i=0;i<6;i++){
-                        dummy[i]-='0';
-                    }
-                        imm=dummy+d2b(c,6);
-                    }
+
+                    if(f==0)
+                      {
+                         imm = d2b(c,12);
+                      }  
+
+                    else if(f==1)
+                           {
+                              string dummy="000000";
+                            
+                              for(int i=0;i<6;i++)
+                                 {
+                                   dummy[i]-='0';
+                                 }
+                              
+                              imm=dummy+d2b(c,6);
+                            }
+
                     string bin=imm+rs1+f3+rd+opcode;
-                    if(s.inst=="srai"){
-                    bin[1]=1;
-                }
+
+                    if(s.inst=="srai")
+                      {
+                        bin[1]=1;
+                      }
+                       
                     string h(8, '0');
                     
-                for (int i = 0; i < 8; i++)
-                    {
-                        h[i] = bx(&(bin[0]) + 4 * i);
-                    }
+                    for(int i = 0; i < 8; i++)
+                        {
+                           h[i] = bx(&(bin[0]) + 4 * i);
+                        }
                 
-                return h;
+                     return h;
               }
 
 
@@ -469,10 +483,61 @@ string ijformat()
                 }
 
 
-string sformat()
-              {
 
+string sformat(s3 s, int a, int b, int c)
+              { 
+                string f3(3, '0');
+                int f = s.f3
+
+                for (int i = 0; i < 3; i++)
+                    {
+                        f3[2 - i] = f & 1;
+                        f = f >> 1;
+                    }
+
+                string rs1(5, '0');
+                string rs2(5, '0');
+
+                f = a;
+
+                for (int i = 0; i < 5; i++)
+                    {
+                        rd[4 - i] = (f & 1);
+                        f = f >> 1;
+                    }
+                
+                f = b;
+
+                for (int i = 0; i < 5; i++)
+                    {
+                        rs1[4 - i] = f & 1;
+                        f = f >> 1;
+                    }
+                
+                string opcode = "0100011";
+
+                for (int i = 0; i < 7; i++)
+                    {
+                        opcode[i] -= '0';
+                    }
+                
+                
+                
+                
+
+                string h(8, '0');
+                    
+                    for(int i = 0; i < 8; i++)
+                        {
+                           h[i] = bx(&(bin[0]) + 4 * i);
+                        }
+                
+                     return h;
+
+                 
               } 
+
+
 
 string bformat()
               {

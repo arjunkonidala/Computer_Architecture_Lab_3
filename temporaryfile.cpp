@@ -2,6 +2,31 @@
 #include <fstream>
 using namespace std;
 
+string d2b(int num,int nob)
+          {
+            if(num<0)
+              {
+                 int m=1;
+
+                 for(int i=0;i<nob;i++)
+                    {
+                       m*=2;
+                    }
+                 num+=m;
+              }
+            
+            string bin(nob,'0');
+            
+            for(int i=0;i<nob;i++)
+               {
+                  bin[nob-1-i]=num&1;
+                  num=num>>1;
+               }
+             
+            return bin;
+
+          }
+
 char bx(char *a)
     {
         int x = 1;
@@ -59,7 +84,7 @@ s2 aliastable[65] = {
                     };
 
 
-s3 rftable[10];
+s3 rftable[8];
 
 s3 iftable[9];
 
@@ -118,15 +143,6 @@ int ifrf(string s)
                 return 1;
             }
             
-            else if (s == "slt")
-            {
-                return 1;
-            }
-            
-            else if (s == "sltu")
-            {
-                return 1;
-            }
             
             return 0;
         
@@ -170,15 +186,6 @@ int ifif(string s)
                 return 1;
             }
 
-            else if (s == "slti")
-            {
-                return 1;
-            }
-
-            else if (s == "sltiu")
-            {
-                return 1;
-            }
 
             return 0;
         }
@@ -186,7 +193,7 @@ int ifif(string s)
 
 int ifilf(string s)
          {
-             else if (s == "lb")
+            if (s == "lb")
             {
                 return 1;
             }
@@ -220,6 +227,7 @@ int ifilf(string s)
             {
                 return 1;
             }
+            return 0;
          }
 
 
@@ -228,7 +236,7 @@ int ifijf(string s)
             if (s == "jalr")
             {
                 return 1;
-            }
+            }return 0;
          }
 
 
@@ -384,11 +392,9 @@ string rformat(s3 s, int a, int b, int c)
 
 string iformat(s3 s,int a,int b,int c)
               {
-                int f = s.f3;
-
-                if(s.f7==0)
-                  {
+                    int f = s.f3;                
                     string f3(3,'0');
+
                     for (int i = 0; i < 3; i++)
                         {
                            f3[2 - i] = f & 1;
@@ -413,14 +419,58 @@ string iformat(s3 s,int a,int b,int c)
                             f = f >> 1;
                         }
 
-                    string opcode = "0110011";
+                    string opcode = "0010011";
 
                     for (int i = 0; i < 7; i++)
                         {
                             opcode[i] -= '0';
                         }
-                  }
-    
+
+                    f=s.f7;
+                    string dummy="000000";
+
+                    for(int i=0;i<6;i++)
+                       {
+                          dummy[i]-='0';
+                       }
+
+                    string imm(12,'0');
+
+                    if(f == 0)
+                      {
+                         imm = d2b(c,12);
+                      }  
+
+                    else if(f==1)
+                           {
+                              string dummy="000000";
+                            
+                              for(int i=0;i<6;i++)
+                                 {
+                                   dummy[i]-='0';
+                                 }
+                              
+                              imm=dummy+d2b(c,6);
+                            }
+
+                    string bin=imm+rs1+f3+rd+opcode;
+
+                    if(s.inst=="srai")
+                      {
+                        bin[1]=1;
+                      }
+                       
+                    string h(8, '0');
+                    
+                    for(int i = 0; i < 8; i++)
+                        {
+                           h[i] = bx(&(bin[0]) + 4 * i);
+                        }
+                
+                     return h;
+
+
+
               }
 
 
@@ -436,9 +486,9 @@ string ijformat()
                 }
 
 
-string sformat()
+string sformat(s3 s, int a, int b, int c)
               {
-
+                 
               } 
 
 string bformat()
@@ -466,7 +516,7 @@ int main()
         ifstream file1("input.s");
         ofstream file2("output.hex");
         string ins;
-        int line=1;
+        int line = 1;
 
         while(getline(file1,ins))
              {
@@ -492,8 +542,7 @@ int main()
                         rftable[5] = s3("sll", 0x1, 0x00);
                         rftable[6] = s3("srl", 0x5, 0x00);
                         rftable[7] = s3("sra", 0x5, 0x20);
-                        rftable[8] = s3("slt", 0x2, 0x00);
-                        rftable[9] = s3("sltu", 3, 0x00);
+
                         s3 data("0", 0, 0);
 
                         int k = 0;
@@ -561,7 +610,7 @@ int main()
 
                             }
 
-                        if(e!=71)
+                        if(e!=3)
                         {
                             file2<<"error in line "<<line<<"\n";
                             return 0;
@@ -577,6 +626,7 @@ int main()
                             }
 
                         file2 << rformat(data, rdi, rs1i, rs2i)<<endl;
+                        line++;
                     }
 
                 else if(ifif(m))
@@ -586,15 +636,15 @@ int main()
                             iftable[2] = s3("xori", 0x4, 0x00);
                             iftable[3] = s3("ori", 0x6, 0x00);
                             iftable[4] = s3("andi", 0x7, 0x00);
-                            iftable[5] = s3("slli", 0x1, 0x00);
-                            iftable[6] = s3("srli", 0x5, 0x00);
-                            iftable[7] = s3("slti", 0x2, );
-                            iftable[8] = s3("sltiu", 0x3, );
+                            iftable[5] = s3("slli", 0x1, 0x1);
+                            iftable[6] = s3("srli", 0x5, 0x1);
+
+
                             s3 data("0", 0, 0);
 
                             int k = 0;
                             string rd, rs1, imm;
-                            int rdi = -1, rs1i = -1, immi = -1;
+                            int rdi = -1, rs1i = -1;
 
                             for (  ; k < ins.size(); k++)
                                 {
@@ -678,28 +728,44 @@ int main()
                               }
                             
                             int immv =0;
-
-                            for(int i=0;i<imm.size();i++)
+                            int power=1;
+                            for(int i=imm.size()-1;i>=sign;i--)
                                {
-                                  if(imm[i]=='-')
-                                    {
-                                      continue;
-                                    }
-                                     
-                                  else
-                                      {
-
-                                      }
-
-                                  file2 << iformat(data, rdi, rs1i,immi) << endl;
+                                  immv+=(imm[i]-'0')*power;
+                                  power=power*10;
+                                
+                                  
                                }
+                            if(sign)immv=-immv;
+                            
+                            for(int i=0;i<7;i++){
+                                if(iftable[i].inst==m){
+                                    
+                                    if(iftable[i].f7==1){
+                                        if(immv>=0&&immv<64){
 
+                                        }
+                                        else{
+                                            cout<<"immediate value out of bound in line "<<line<<endl;return 0;
+                                        }
+                                    }
+                                    else{
+                                        if(immv>=-2048&&immv<=2047){
+
+                                        }
+                                        else{
+                                             cout<<"immediate value out of bound in line "<<line<<endl;return 0;
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            file2<<iformat(data,rdi,rs1i,immv)<<endl;
                             line++;
-
                     }
+                    
 
-
-                 else if(ifilf(m))
+                /* else if(ifilf(m))
                         {
                                 ilftable[0] = s3("lb", 0, );
                                 ilftable[1] = s3("lh", 0x1,);
@@ -757,6 +823,6 @@ int main()
 
 
 
-        return 0;
+        return 0;*/
 
-    }
+    }}
