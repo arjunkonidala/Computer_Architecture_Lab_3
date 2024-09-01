@@ -522,7 +522,7 @@ string sformat(s3 s, int a, int b, int c)
                     }
                  
                 string imm = d2b(c,12);
-                string imm1,imm2;
+                string imm1(5,'0'),imm2(7,'0');
 
                 for(int i=0;i<5;i++)
                    {
