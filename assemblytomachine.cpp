@@ -2,6 +2,8 @@
 #include <fstream>
 using namespace std;
 
+map<string,int>ll;
+
 string d2b(int num,int nob)   // Function that converts a decimal number() into binary string of particular size().
           {
             if(num < 0)
@@ -98,9 +100,6 @@ s3 sftable[4];
 
 s3 bftable[6];
 
-s3 uftable[1];
-
-s3 ujftable[1];
 
 
 int ifrf(string s)  // Listing all the R-format instructions to check which the instruction in the input file.
@@ -229,8 +228,8 @@ int ifilf(string s) // Listing the I-format instructions(Load type) to check whi
             {
                 return 1;
             }
-            
-            return 0;
+
+            return 0;   
          }
 
 
@@ -316,6 +315,17 @@ int ifuf(string s)
 
             return 0;
         }
+
+string checker(string a)
+              {
+                for(int i=0; i<a.size(); i++)
+                   {
+                      a[i] += '0';
+                   }
+                
+                return a;
+              }
+
 
 int ifujf(string s)
         {
@@ -532,7 +542,7 @@ string ilformat(s3 s,int a,int b,int c)         // Function for load instruction
                         }
                 
                      return h;
-}
+               }
 
 
 string ijformat(s3 s,int a,int b,int c)   // Function for jalr instructions
@@ -664,7 +674,66 @@ string sformat(s3 s, int a, int b, int c)    // Function for S-Format instructio
 
 string bformat()
               {
-                 
+                string f3(3, '0');
+                int f = s.f3;
+
+                for (int i = 0; i < 3; i++)
+                    {
+                        f3[2 - i] = f & 1;
+                        f = f >> 1;
+                    }
+
+                string rs1(5, '0');
+                string rs2(5, '0');
+
+                f = a;
+
+                for (int i = 0; i < 5; i++)
+                    {
+                        rs1[4 - i] = (f & 1);
+                        f = f >> 1;
+                    }
+                
+                f = b;
+
+                for (int i = 0; i < 5; i++)
+                    {
+                        rs2[4 - i] = f & 1;
+                        f = f >> 1;
+                    }
+                
+                string opcode = "1100011";
+
+                for (int i = 0; i < 7; i++)
+                    {
+                        opcode[i] -= '0';
+                    }
+                
+                string imm = d2b(c,13);
+                string imm1(6,'0'),imm2(4,'0');
+                
+                
+                for(int i=0;i<6;i++)
+                   {
+                      imm1[5-i]=imm[8-i];
+                   } 
+                
+                for(int i=0;i<4;i++)
+                   {
+                      imm2[3-i] = imm[11-i];
+                   }
+                
+                string bin = imm[0] + imm1 + rs2 + rs1 + f3 + imm2 + imm[1] + opcode;
+                string h(8, '0');
+                
+                    
+                for(int i = 0; i < 8; i++)
+                    {
+                           h[i] = bx(&(bin[0]) + 4 * i);
+                    }
+                
+                return h;
+
               }
 
 
@@ -678,27 +747,87 @@ string ujformat()
 
 
 int main()                                  // Function main
-    {
+    {   
+        ifstream f("input.s");
+        int l=1;
+        string lc;
+
+        while(getline(f,lc))
+             {
+                int i=0;int r=0;
+                
+                for( ; i < lc.size(); i++)
+                   {
+                      if(lc[i]==':')
+                        {  
+                            r=1;
+                            break;
+                        }
+                    }
+                
+                string label;
+                
+                if(r)
+                  {
+                       for(int j=0; j<i; j++)
+                          {
+                            label.push_back(lc[j]);
+                          }
+                
+                       ll[label]=l;
+                  }
+                
+                l++;
+             }
+        
         ifstream file1("input.s");
         ofstream file2("output.hex");
         string ins;
         int line = 1;
 
         while(getline(file1,ins))
-             {
-        
-                 string m;
-                 for (int i = 0; i < ins.size(); i++)
-                     {
+             {   
+                int q=0;
+                for( ; q < ins.size(); q++)
+                   {
+                      if(ins[q]==':')
+                        {
+                            q=0;break;
+                        }
+
+                   } 
+                
+                int remc=0;
+                
+                if(!q)
+                  {
+                      for(int i=0; i < ins.size(); i++)
+                         {
+                           if(ins[i]==' ')
+                             {
+                                remc=i+1;
+                                break;
+                             }
+                         }
+                  }
+                
+                ins.erase(0,remc);                
+                string m;
+
+                for(int i = 0; i < ins.size(); i++)
+                   {
                        if (ins[i] == ' ')
                           {
                               break;
                           }
                      
-                       m.push_back(ins[i]);
-                     }
+                        m.push_back(ins[i]);
+                   }
 
-                 if (ifrf(m))   // For R-Format instructions 
+             }
+
+             
+                 if (ifrf(m))      // For R-Format instructions 
                     {
                         rftable[0] = s3("add", 0, 0);
                         rftable[1] = s3("sub", 0x0, 0x20);
@@ -795,8 +924,9 @@ int main()                                  // Function main
                         line++;
                     }
 
+
                 else if(ifif(m))   // For immediate format instructions other than load.
-                    { 
+                       { 
                             iftable[0] = s3("addi", 0, 0);
                             iftable[1] = s3("srai", 0x5,1);
                             iftable[2] = s3("xori", 0x4, 0x00);
@@ -804,7 +934,6 @@ int main()                                  // Function main
                             iftable[4] = s3("andi", 0x7, 0x00);
                             iftable[5] = s3("slli", 0x1, 0x1);
                             iftable[6] = s3("srli", 0x5, 0x1);
-
 
                             s3 data("0", 0, 0);
 
@@ -854,18 +983,20 @@ int main()                                  // Function main
                                     imm.push_back(ins[k]);
                                 }
                                 
-                                int e=0;
+                            int e=0;
 
                             for (int i = 0; i < 65; i++)
                                 {
                                     if (rs1 == aliastable[i].a)
-                                        {
-                                            rs1i = aliastable[i].b;e+=7;
-                                        }
+                                       {
+                                            rs1i = aliastable[i].b;
+                                            e += 7;
+                                       }
                                     
                                     if (rd == aliastable[i].a)
                                         {
-                                            rdi = aliastable[i].b;e+=55;
+                                            rdi = aliastable[i].b;
+                                            e += 55;
                                         }
 
                                 }
@@ -898,8 +1029,8 @@ int main()                                  // Function main
 
                             for(int i=imm.size()-1;i>=sign;i--)
                                {
-                                  immv+=(imm[i]-'0')*power;
-                                  power=power*10;
+                                  immv += (imm[i]-'0')*power;
+                                  power = power*10;
                                                                  
                                }
 
@@ -1026,7 +1157,7 @@ int main()                                  // Function main
                                 
                                 if(e!=62)
                                   {
-                                      file2<<"error in line "<<line<<"\n";
+                                      file2 << "error in line " << line <<"\n";
 
                                       return 0;
                                   }
@@ -1054,20 +1185,20 @@ int main()                                  // Function main
                                 for(int i=imm.size()-1;i>=sign;i--)
                                 {
                                     immv+=(imm[i]-'0')*power;
-                                    power=power*10;                                                                 
+                                    power = power*10;                                                                 
                                 }
 
                                 if(sign)
                                 { 
-                                    immv=-immv;
+                                    immv =- immv;
                                 }
                                 
-                                if(!(immv>=-2048&&immv<=2047))
+                                if(!(immv >= -2048 && immv <= 2047))
                                   {
-                                    file2<<"immediate value out of bound line "<<line<<endl;
+                                    file2 << "immediate value out of bound line " << line << endl;
                                   }
 
-                                file2<<ilformat(data,rdi,rs1i,immv)<<endl;
+                                file2 << ilformat(data,rdi,rs1i,immv) << endl;
                                 line++;
 
                             
@@ -1127,59 +1258,59 @@ int main()                                  // Function main
                                    imm.push_back(ins[k]);
                                 }
 
-                            int e=0;
+                            int e = 0;
                             
                             for (int i = 0; i < 65; i++)
                                 {
                                     if (rs1 == aliastable[i].a)
                                         {
                                             rs1i = aliastable[i].b;
-                                            e+=7;
+                                            e += 7;
                                         }
                                     
                                     if (rd == aliastable[i].a)
                                         {
                                             rdi = aliastable[i].b;
-                                            e+=55;
+                                            e += 55;
                                         }
                                 }
 
-                                cout<<e;
+                                cout << e;
 
                                 if(e!=62)
                                   {
-                                     file2<<"error in line "<<line<<"\n";
+                                     file2 << "error in line " << line << "\n";
                                      return 0;
                                   }
 
-                                int sign=0;
-
-                                if(imm[0]=='-')
+                                int sign = 0;
+ 
+                                if(imm[0] == '-')
                                   {
-                                    sign=1;
+                                    sign = 1;
                                   }
                             
-                                int immv =0;
-                                int power=1;
+                                int immv = 0;
+                                int power = 1;
                                 
-                                for(int i=imm.size()-1;i>=sign;i--)
+                                for(int i = imm.size()-1; i >= sign; i--)
                                    {
-                                      immv+=(imm[i]-'0')*power;
-                                      power=power*10;                             
+                                      immv += (imm[i]-'0')*power;
+                                      power = power*10;                             
                                    }
 
                                 if(sign)
                                 { 
-                                    immv=-immv;
-                                    cout<<immv;
+                                    immv =- immv;
+                                    cout << immv;
                                 }
 
-                                if(!(immv>=-2048&&immv<=2047))
+                                if(!(immv >=-2048 && immv <= 2047))
                                   {
-                                     file2<<"immediate value out of bound in line "<<line<<endl;
+                                     file2 <<"immediate value out of bound in line " << line << endl;
                                   }
 
-                                file2<<ijformat(data,rdi,rs1i,immv)<<endl;
+                                file2 << ijformat(data,rdi,rs1i,immv) << endl;
                                 line++;
 
                         } 
@@ -1196,7 +1327,131 @@ int main()                                  // Function main
                                 int k=0;
                                 string rd,rs1,imm;
                                 int rdi,rs1i;
+
                                 for (  ; k < ins.size(); k++)
+                                    {
+                                      if (ins[k] == ' ')
+                                         {
+                                            k++;
+                                            break;
+                                         }
+                                    }
+
+                                for (  ; k < ins.size(); k++)
+                                    {
+                                       if (ins[k] == ',')
+                                          {
+                                             k+=2;
+                                             break;
+                                          }
+
+                                        rd.push_back(ins[k]);
+                                    }
+
+                                for (  ; k < ins.size(); k++)
+                                    {
+                                      if (ins[k] == '(')
+                                         {
+                                            k++;
+                                            break;
+                                         }
+
+                                      imm.push_back(ins[k]);
+                                    }
+
+                                for (  ; k < ins.size(); k++)
+                                    {
+                                       if (ins[k] == ')')
+                                          {
+                                             k++;
+                                             break;
+                                          }
+
+                                        rs1.push_back(ins[k]);
+                                    }
+
+                                int e = 0;
+
+                                for (int i = 0; i < 65; i++)
+                                    {
+                                       if (rs1 == aliastable[i].a)
+                                          {
+                                             rs1i = aliastable[i].b;
+                                             e += 7;
+                                          }
+                                    
+                                       if (rd == aliastable[i].a)
+                                          {
+                                             rdi = aliastable[i].b;
+                                             e += 55;
+                                          }
+
+                                    }
+                                
+                                if(e!=62)
+                                  {
+                                     file2<<"error in line "<<line<<"\n";
+
+                                     return 0;
+                                  }
+
+                               for (int i = 0; i < 4; i++)
+                                   {
+                                     if (sftable[i].inst == m)
+                                        {
+                                            data = sftable[i];
+                                            break;
+                                        }
+                                   }
+                                
+
+                                int sign=0;
+
+                                if(imm[0]=='-')
+                                  {
+                                    sign=1;
+                                  }
+                            
+                                int immv =0;
+                                int power=1;
+
+                                for(int i=imm.size()-1;i>=sign;i--)
+                                   {
+                                      immv+=(imm[i]-'0')*power;
+                                      power=power*10;                                  
+                                   }
+                               
+                                if(sign)
+                                  {
+                                    immv =- immv;
+                                  }
+
+                                if(!(immv>=-2048&&immv<=2047))
+                                  {
+                                    file2 << "immediate value out of bound line " << line << endl;
+                                  }
+
+                                file2 << sformat(data,rdi,rs1i,immv) << endl;
+                                line++;
+
+                        }
+
+
+                else if(ifbf(m))
+                       {
+                            bftable[0] = s3("beq", 0x0,0 );    
+                            bftable[1] = s3("bne", 0x1, 0);
+                            bftable[2] = s3("blt", 0x4,0 );
+                            bftable[3] = s3("bge", 0x5, 0);
+                            bftable[4] = s3("bltu", 0x6,0 );
+                            bftable[5] = s3("bgeu", 0x7, 0);                            
+                            s3 data("0", 0, 0);
+                            
+                            int k=0;
+                            string rd,rs1,imm;
+                            int rdi,rs1i;
+                            
+                            for (  ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ' ')
                                         {
@@ -1204,7 +1459,7 @@ int main()                                  // Function main
                                             break;
                                         }
                                 }
-
+                                
                             for (  ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ',')
@@ -1218,7 +1473,18 @@ int main()                                  // Function main
 
                             for (  ; k < ins.size(); k++)
                                 {
-                                    if (ins[k] == '(')
+                                    if (ins[k] == ',')
+                                        {
+                                            k+=2;
+                                            break;
+                                        }
+
+                                    rs1.push_back(ins[k]);
+                                }
+
+                            for (  ; k < ins.size(); k++)
+                                {
+                                    if (ins[k] == ',')
                                         {
                                             k++;
                                             break;
@@ -1227,20 +1493,9 @@ int main()                                  // Function main
                                     imm.push_back(ins[k]);
                                 }
 
-                            for (  ; k < ins.size(); k++)
-                                {
-                                    if (ins[k] == ')')
-                                        {
-                                            k++;
-                                            break;
-                                        }
-
-                                rs1.push_back(ins[k]);
-                                }
-
-                                int e=0;
-
-                                for (int i = 0; i < 65; i++)
+                            int e=0;
+                            
+                             for (int i = 0; i < 65; i++)
                                 {
                                     if (rs1 == aliastable[i].a)
                                         {
@@ -1254,121 +1509,128 @@ int main()                                  // Function main
 
                                 }
                                 
-                                if(e!=62)
-                                {
-                                    file2<<"error in line "<<line<<"\n";
+                            if(e!=62)
+                              {
+                                file2<<"error in line "<<line<<"\n";
+                                return 0;
+                              }
 
-                                    return 0;
-                                }
-
-                            for (int i = 0; i < 4; i++)
+                            for (int i = 0; i < 7; i++)
                                 {
-                                    if (sftable[i].inst == m)
-                                        {
-                                            data = sftable[i];
+                                    if (bftable[i].inst == m)
+                                       {
+                                            data = bftable[i];
                                             break;
-                                        }
+                                       }
                                 }
-                                
 
-                            int sign=0;
-
-                            if(imm[0]=='-')
-                              {
-                                sign=1;
-                              }
+                            int immd=0;
+                            auto it=ll.find(imm);
                             
-                            int immv =0;
-                            int power=1;
+                            if(it==ll.end())
+                              {
+                                 int sign=0;
 
-                            for(int i=imm.size()-1;i>=sign;i--)
-                               {
-                                  immv+=(imm[i]-'0')*power;
-                                  power=power*10;                                  
-                               }
+                                 if(imm[0]=='-')
+                                   {
+                                     sign=1;
+                                   }
+                            
+                                 int immv =0;
+                                 int power=1;
                                
-                            if(sign)
-                              {
-                                immv =- immv;
-                              }
-
-                            if(!(immv>=-2048&&immv<=2047))
-                              {
-                                 file2<<"immediate value out of bound line "<<line<<endl;
-                              }
-
-                            file2<<sformat(data,rdi,rs1i,immv)<<endl;
-                            line++;
-
-                        }
-
-
-                else if(ifbf(m))
-                       {
-                            bftable[0] = s3("beq", 0x0,0 );    
-                            bftable[1] = s3("bne", 0x1, 0);
-                            bftable[2] = s3("blt", 0x4,0 );
-                            bftable[3] = s3("bge", 0x5, 0);
-                            bftable[4] = s3("bltu", 0x6,0 );
-                            bftable[5] = s3("bgeu", 0x7, 0);
-                            s3 data("0", 0, 0);
-                                 
+                                 for(int i = imm.size()-1; i >= sign; i--)
+                                    {
+                                       immv += (imm[i] - '0')*power;
+                                       power = power*10;                                  
+                                    }
                             
-                        }
+                                 if(sign)
+                                 { 
+                                    immv =- immv;
+                                 }
+                                 
+                                 if(!(immv >= -2048 && immv <= 2047))
+                                   {
+                                      file2 << "immediate value out of bound in line " << line << endl;
+                                   }
+                                 
+                                 file2 << ijformat(data,rdi,rs1i,immv) << endl;
+                              }
+                            
+                            else
+                                {
+                                    int linenum = ll[imm];
+                                    int immv = linenum*4 - line*4;
+                                    
+                                    if(!(immv >= -2048 && immv <= 2047))
+                                      {
+                                        file2<<"immediate value out of bound in line "<<line<<endl;
+                                      }
+                                   
+                                    file2 << bformat(data,rdi,rs1i,immv) << endl;
+
+                                }   
+                            
+                         }
 
 
                 else if(ifuf(m))
                        {
                             string opcode="0110111";
                             
-                            for(int i=0;i<7;i++)
+                            for(int i=0; i<7; i++)
                                {
-                                  opcode[i]-='0';
+                                  opcode[i] -= '0';
                                }
                             
                             string imm;
-                            int k=0;int co=0;
+                            int k = 0;
+                            int co = 0;
 
-                            for(;k<ins.size();k++)
+                            for( ; k < ins.size(); k++)
                                {
                                   if (ins[k] == ' ')
                                      {
-                                        k++;break;
+                                        k++;
+                                        break;
                                      }
                                }
 
                             string r;
                             
-                            for(;k<ins.size();k++)
+                            for( ; k < ins.size(); k++)
                                {
-                                  if(ins[k]==',')
+                                  if(ins[k] == ',')
                                     {
-                                       k+=2;break;
+                                       k+=2;
+                                       break;
                                     }
 
                                   r.push_back(ins[k]);                                
                                 }
 
-                            int r1=0;cout<<r;
+                            int r1=0;
+                            cout << r;
 
-                            for(int i=0;i<65;i++)
+                            for(int i=0; i<65; i++)
                                {
-                                  if(aliastable[i].a==r)
+                                  if(aliastable[i].a == r)
                                     {
-                                       r1=aliastable[i].b;
+                                       r1 = aliastable[i].b;
                                     }
                                } 
                             
-                            cout<<r1;
+                            cout << r1;
                             
-                            for(;k<ins.size();k++)
+                            for( ; k<ins.size(); k++)
                                {
                                   imm.push_back(ins[k]);
                                }
                             
                             if(imm[0]=='-')
                               {
-                                  file2<<"immeddiate out of bound in line "<<line<<endl;
+                                  file2 << "immeddiate out of bound in line " << line << endl;
                               }
                               
                             int immv =0;
@@ -1383,19 +1645,19 @@ int main()                                  // Function main
                     
                             for(int i=imm.size()-1;i>=0;i--)
                                {
-                                  immv+=(imm[i]-'0')*power;
-                                  power=power*10;                                  
+                                  immv += (imm[i]-'0')*power;
+                                  power = power*10;                                  
                                }
 
-                            cout<<immv;
+                            cout << immv;
 
-                            if(immv>=(1<<20))
+                            if(immv >= (1<<20))
                               {
-                                  file2<<"immediate value out of bound in line "<<line<<endl;
+                                  file2 << "immediate value out of bound in line " << line << endl;
                               }
 
-                            string x=d2b(immv,20);
-                            string a=x+r2+opcode;
+                            string x = d2b(immv,20);
+                            string a = x + r2 + opcode;
                             string h(8, '0');
                 
                     
@@ -1405,7 +1667,8 @@ int main()                                  // Function main
                                }
 
                             file2<<h<<endl;
-                       
+                            line++;
+
                         }
                       
 
@@ -1419,9 +1682,9 @@ int main()                                  // Function main
 */
 
            
-
-            }
-
         return 0;
-
     }
+
+        
+
+    
