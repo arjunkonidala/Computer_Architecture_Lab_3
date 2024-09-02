@@ -2,37 +2,37 @@
 #include <fstream>
 using namespace std;
 
-string d2b(int num,int nob)
+string d2b(int num,int nob)   // Function that converts a decimal number() into binary string of particular size().
           {
-            if(num<0)
+            if(num < 0)
               {
                  int m=1;
 
-                 for(int i=0;i<nob;i++)
+                 for(int i=0; i<nob; i++)  // 
                     {
-                       m*=2;
+                       m *= 2;
                     }
                  num += m;
               }
             
             string bin(nob,'0');
             
-            for(int i=0;i<nob;i++)
+            for(int i=0; i<nob; i++)    // Moving the each bit from binary string of decimal number to bin[] string using 'and' operand.
                {
-                  bin[nob-1-i]=num&1;
-                  num=num>>1;
+                  bin[nob-1-i] = num & 1;
+                  num = num >> 1;
                }
              
             return bin;
 
           }
 
-char bx(char *a)
+char bx(char *a)             // Function that converts a 4-bit binary string into hexadecimal digit.
     {
         int x = 1;
         int sum = 0;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)    // This converts the 4-bit binary string into a decimal number.
             {
                 sum += (x * a[3 - i]);
                 x *= 2;
@@ -40,7 +40,7 @@ char bx(char *a)
 
         int y = '0';
 
-        if (sum / 10)
+        if (sum / 10)           // Converting decimal number into hexadecimal character, and returning.
            {
                 y = 'a';
            }
@@ -51,7 +51,7 @@ char bx(char *a)
 
     }
 
-struct s3  // For R and I formats
+struct s3  
     {
         s3(string a, int b, int c)
           {
@@ -79,12 +79,14 @@ struct s2
         int b;
      };
 
+
+// Array to store all the 32 registers in 'x_' and also in ABI names including indices 0 to 31.
 s2 aliastable[65] = { 
                           {"x0", 0}, {"x1", 1}, {"x2", 2}, {"x3", 3}, {"x4", 4}, {"x5", 5}, {"x6", 6}, {"x7", 7}, {"x8", 8}, {"x9", 9}, {"x10", 10}, {"x11", 11}, {"x12", 12}, {"x13", 13}, {"x14", 14}, {"x15", 15}, {"x16", 16}, {"x17", 17}, {"x18", 18}, {"x19", 19}, {"x20", 20}, {"x21", 21}, {"x22", 22}, {"x23", 23}, {"x24", 24}, {"x25", 25}, {"x26", 26}, {"x27", 27}, {"x28", 28}, {"x29", 29}, {"x30", 30}, {"x31", 31}, {"zero", 0}, {"ra", 1}, {"sp", 2}, {"gp", 3}, {"tp", 4}, {"t0", 5}, {"t1", 6}, {"t2", 7}, {"s0", 8},{"fp",8}, {"s1", 9}, {"a0", 10}, {"a1", 11}, {"a2", 12}, {"a3", 13}, {"a4", 14}, {"a5", 15}, {"a6", 16}, {"a7", 17}, {"t3", 28}, {"t4", 29}, {"t5", 30}, {"t6", 31}, {"s2", 18}, {"s3", 19}, {"s4", 20}, {"s5", 21}, {"s6", 22}, {"s7", 23}, {"s8", 24}, {"s9", 25}, {"s10", 26}, {"s11", 27}
                     };
 
 
-s3 rftable[8];
+s3 rftable[8];  // Arrray's to store the instruction's with instruction name, funct3, funct7(if exits, if not we can use it for other purposes). 
 
 s3 iftable[9];
 
@@ -101,7 +103,7 @@ s3 uftable[1];
 s3 ujftable[1];
 
 
-int ifrf(string s)
+int ifrf(string s)  // Listing all the R-format instructions to check which the instruction in the input file.
         {
             if (s == "add")
             {
@@ -149,7 +151,7 @@ int ifrf(string s)
         }
 
 
-int ifif(string s)
+int ifif(string s)  // Listing the I-format instructions(other than load) to check which the instruction in the input file.
         {
             if (s == "addi")
             {
@@ -189,9 +191,9 @@ int ifif(string s)
 
             return 0;
         }
+0
 
-
-int ifilf(string s)
+int ifilf(string s) // Listing the I-format instructions(Load type) to check which the instruction in the input file.
          {
             if (s == "lb")
             {
@@ -227,16 +229,19 @@ int ifilf(string s)
             {
                 return 1;
             }
+            
             return 0;
          }
 
 
-int ifijf(string s)
+int ifijf(string s)  // 
          {
             if (s == "jalr")
             {
                 return 1;
-            }return 0;
+            }
+            
+            return 0;
          }
 
 
@@ -324,7 +329,7 @@ int ifujf(string s)
 
 
 
-string rformat(s3 s, int a, int b, int c)
+string rformat(s3 s, int a, int b, int c)      // Function for R-format instructions.
             {
                 string f3(3, '0');
                 int f = s.f3;
@@ -390,7 +395,7 @@ string rformat(s3 s, int a, int b, int c)
             }
 
 
-string iformat(s3 s,int a,int b,int c)
+string iformat(s3 s,int a,int b,int c)        // Function for I-format instructions other than load
               {
                     int f = s.f3;                
                     string f3(3,'0');
@@ -470,7 +475,7 @@ string iformat(s3 s,int a,int b,int c)
                      return h;
               }
 
-string ilformat(s3 s,int a,int b,int c)
+string ilformat(s3 s,int a,int b,int c)         // Function for load instructions.
               {
                     int f = s.f3;                
                     string f3(3,'0');
@@ -530,7 +535,7 @@ string ilformat(s3 s,int a,int b,int c)
 }
 
 
-string ijformat(s3 s,int a,int b,int c)
+string ijformat(s3 s,int a,int b,int c)   // Function for jalr instructions
                 {
                     int f = s.f3;                
                     string f3(3,'0');
@@ -590,7 +595,7 @@ string ijformat(s3 s,int a,int b,int c)
                 }
 
 
-string sformat(s3 s, int a, int b, int c)
+string sformat(s3 s, int a, int b, int c)    // Function for S-Format instructions.
               { 
                 string f3(3, '0');
                 int f = s.f3;
@@ -672,7 +677,7 @@ string ujformat()
 
 
 
-int main()
+int main()                                  // Function main
     {
         ifstream file1("input.s");
         ofstream file2("output.hex");
@@ -693,7 +698,7 @@ int main()
                        m.push_back(ins[i]);
                      }
 
-                 if (ifrf(m))
+                 if (ifrf(m))   // For R-Format instructions 
                     {
                         rftable[0] = s3("add", 0, 0);
                         rftable[1] = s3("sub", 0x0, 0x20);
@@ -790,8 +795,8 @@ int main()
                         line++;
                     }
 
-                else if(ifif(m))
-                    {
+                else if(ifif(m))   // For immediate format instructions other than load.
+                    { 
                             iftable[0] = s3("addi", 0, 0);
                             iftable[1] = s3("srai", 0x5,1);
                             iftable[2] = s3("xori", 0x4, 0x00);
@@ -943,7 +948,7 @@ int main()
                     }
                     
 
-                else if(ifilf(m))
+                else if(ifilf(m))   // For load instructions.
                        {                             
                                 ilftable[0] = s3("lb", 0,0 );
                                 ilftable[1] = s3("lh", 0x1,0);
@@ -1070,7 +1075,7 @@ int main()
                         } 
 
 
-                else if(ifijf(m))
+                else if(ifijf(m))      // For jalr 
                        {
                             ijftable[0] = s3("jalr", 0x0, 0);
                             s3 data("0", 0, 0);
@@ -1406,7 +1411,7 @@ int main()
 
 /*              else if(ifujf(m))
                        {
-                            ujftable[0] = s3("jalr", 0x0, );
+                            ujftable[0] = s3("jal", 0x0, );
                             s3 data("0", 0, 0);
                        }     
 
