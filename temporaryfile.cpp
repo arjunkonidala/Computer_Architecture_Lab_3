@@ -654,7 +654,7 @@ string sformat(s3 s, int a, int b, int c)
                         }
                 
                      return h;
-                                      
+
               } 
               
 
@@ -1140,7 +1140,7 @@ int main()
                         } 
                         else if(ifbf(m))
                         {
-                                 bftable[0] = s3("beq", 0x0,0 );
+                                 bftable[0] = s3("beq", 0x0,0 );    
                                  bftable[1] = s3("bne", 0x1, 0);
                                  bftable[2] = s3("blt", 0x4,0 );
                                  bftable[3] = s3("bge", 0x5, 0);
