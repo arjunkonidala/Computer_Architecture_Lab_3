@@ -1504,17 +1504,128 @@ int main()
                         file2<<h<<endl;
                         line++;
                         }
-                /*     
+                    
                  else if(ifujf(m))
                         {
-                                  ujftable[0] = s3("jal", 0x0, );
-                                  s3 data("0", 0, 0);
+                                 string opcode = "1101111";
+                            
+                            for(int i=0; i<7; i++)
+                               {
+                                  opcode[i] -= '0';
+                               }
+                            
+                            string imm;
+                            int k = 0;
+                            int co = 0;
+
+                            for( ; k < ins.size(); k++)
+                               {
+                                  if (ins[k] == ' ')
+                                     {
+                                        k++;
+                                        break;
+                                     }
+                               }
+
+                            string r;
+                            
+                            for( ; k < ins.size(); k++)
+                               {
+                                  if(ins[k] == ',')
+                                    {
+                                       k += 2;
+                                       break;
+                                    }
+
+                                  r.push_back(ins[k]);                                
+                                }
+
+                            int r1=0;
+                            cout << r;
+
+                            for(int i=0; i<65; i++)
+                               {
+                                  if(aliastable[i].a == r)
+                                    {
+                                       r1 = aliastable[i].b;
+                                    }
+                               } 
+                            
+                            cout << r1;
+                            
+                            for( ; k<ins.size(); k++)
+                               {
+                                  imm.push_back(ins[k]);
+                               }
+                            
+                            if(imm[0]=='-')
+                              {
+                                  file2 << "immeddiate out of bound in line " << line << endl;
+                              }
+                              
+                            int immv =0;
+                            int power=1;
+                            string r2(5,'0');
+
+                            for(int i = 0; i < 5; i++)
+                               {
+                                  r2[4 - i] = r1 & 1;
+                                  r1= r1>> 1;
+                               }
+                    
+                            for(int i=imm.size()-1;i>=0;i--)
+                               {
+                                  immv += (imm[i]-'0')*power;
+                                  power = power*10;                                  
+                               }
+
+                            cout << immv;
+
+                            if(immv >= (1 << 20))
+                              {
+                                  file2 << "immediate value out of bound in line " << line << endl;
+                              }
+
+                            string x = d2b(immv,20);
+                            if(immv < 0)
+                              {
+                                x[20] = 1;
+                              }
+                            else 
+                                {
+                                    x[20] = 0;
+                                }
+                            
+                            string imm1(10,'0'),imm2(8,'0');
+
+                            for(int i = 0; i < 10; i++)
+                               {
+                                  imm1[i] = x[9+i];
+                               }
+                            
+                            for(int i=0; i<8;i++)
+                               {
+                                  imm2[i] =x[i];
+                               }
+                            
+                            string a = x[20] + imm1 + x[8] + imm2 + r2 + opcode;
+                            string h(8, '0');
+                
+                    
+                            for(int i = 0; i < 8; i++)
+                               {
+                                  h[i] = bx(&(a[0]) + 4 * i);
+                               }
+
+                            file2 << h <<endl;
+
+                            line++;
                         }     
 
 
 
 
-        return 0;*/
+        return 0;
 
     }
 }
