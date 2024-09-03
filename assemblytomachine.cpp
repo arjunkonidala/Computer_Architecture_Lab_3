@@ -192,7 +192,7 @@ int ifif(string s)  // Listing the I-format instructions(other than load) to che
 
             return 0;
         }
-0
+
 
 int ifilf(string s) // Listing the I-format instructions(Load type) to check which the instruction in the input file.
          {
@@ -717,15 +717,16 @@ string bformat()
                 
                 for(int i=0;i<6;i++)
                    {
-                      imm1[5-i]=imm[8-i];
+                      imm1[i]=imm[i+2];
                    } 
                 
                 for(int i=0;i<4;i++)
                    {
-                      imm2[3-i] = imm[11-i];
+                      imm2[i] = imm[i+8];
                    }
                 
                 string bin = imm[0] + imm1 + rs2 + rs1 + f3 + imm2 + imm[1] + opcode;
+                cout<<c<<endl;
                 string h(8, '0');
                 
                     
