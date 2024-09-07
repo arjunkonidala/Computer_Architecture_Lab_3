@@ -5,26 +5,26 @@
 
 using namespace std;
 
-map<string,int>ll;
+map<string,int> ll ;
 
-string d2b(int num,int nob)   // Function that converts a decimal number() into binary string of particular size().
+string decimaltobinary(int num,int size)   // Function that converts a decimal number() into binary string of particular size().
           {
-            if(num < 0)
+            if(num < 0)                    // If num is negative, convert it into it's 2's complement form 
               {
                  int m=1;
 
-                 for(int i=0; i<nob; i++)  // 
+                 for(int i=0; i<size; i++)  
                     {
                        m *= 2;
                     }
                  num += m;
               }
             
-            string bin(nob,'0');
+            string bin(size,'0');
             
-            for(int i=0; i<nob; i++)    // Moving the each bit from binary string of decimal number to bin[] string using 'and' operand.
+            for(int i=0; i<size; i++)    // Moving the each bit from binary string of decimal number to bin[] string using 'and' operand.
                {
-                  bin[nob-1-i] = num & 1;
+                  bin[size-1-i] = num & 1;  // + '0' 
                   num = num >> 1;
                }
              
@@ -32,7 +32,7 @@ string d2b(int num,int nob)   // Function that converts a decimal number() into 
 
           }
 
-char bx(char *a)             // Function that converts a 4-bit binary string into hexadecimal digit.
+char tohexa(char *a)             // Function that converts a 4-bit binary string into hexadecimal digit.
     {
         int x = 1;
         int sum = 0;
@@ -58,6 +58,10 @@ char bx(char *a)             // Function that converts a 4-bit binary string int
 
 struct s3  
     {
+        string inst;
+        int f3;
+        int f7;
+
         s3(string a, int b, int c)
           {
             inst = a;
@@ -70,11 +74,7 @@ struct s3
             inst = "0";
             f3 = 0;
             f7 = 0;
-         };
-
-        string inst;
-        int f3;
-        int f7;
+         }
 
     };
 
@@ -402,7 +402,7 @@ string rformat(s3 s, int a, int b, int c)      // Function for R-format instruct
 
                 for (int i = 0; i < 8; i++)
                     {
-                        h[i] = bx(&(bi[0]) + 4 * i);
+                        h[i] = tohexa(&(bi[0]) + 4 * i);
                     }
                 return h;
             }
@@ -456,7 +456,7 @@ string iformat(s3 s,int a,int b,int c)        // Function for I-format instructi
 
                     if(f==0)
                       {
-                         imm = d2b(c,12);
+                         imm = decimaltobinary(c,12);
                       }  
 
                     else if(f==1)
@@ -468,7 +468,7 @@ string iformat(s3 s,int a,int b,int c)        // Function for I-format instructi
                                    dummy[i]-='0';
                                  }
                               
-                              imm=dummy+d2b(c,6);
+                              imm=dummy+decimaltobinary(c,6);
                             }
 
                     string bin=imm+rs1+f3+rd+opcode;
@@ -482,7 +482,7 @@ string iformat(s3 s,int a,int b,int c)        // Function for I-format instructi
                     
                     for(int i = 0; i < 8; i++)
                         {
-                           h[i] = bx(&(bin[0]) + 4 * i);
+                           h[i] = tohexa(&(bin[0]) + 4 * i);
                         }
                 
                      return h;
@@ -530,7 +530,7 @@ string ilformat(s3 s,int a,int b,int c)         // Function for load instruction
                     string imm(12,'0');
 
                     
-                         imm = d2b(c,12);
+                         imm = decimaltobinary(c,12);
                       
 
                     string bin=imm+rs1+f3+rd+opcode;
@@ -541,7 +541,7 @@ string ilformat(s3 s,int a,int b,int c)         // Function for load instruction
                     
                     for(int i = 0; i < 8; i++)
                         {
-                           h[i] = bx(&(bin[0]) + 4 * i);
+                           h[i] = tohexa(&(bin[0]) + 4 * i);
                         }
                 
                      return h;
@@ -590,7 +590,7 @@ string ijformat(s3 s,int a,int b,int c)   // Function for jalr instructions
                     string imm(12,'0');
 
                     
-                         imm = d2b(c,12);
+                         imm = decimaltobinary(c,12);
                       
 
                     string bin = imm + rs1 + f3 + rd + opcode;
@@ -601,7 +601,7 @@ string ijformat(s3 s,int a,int b,int c)   // Function for jalr instructions
                     
                     for(int i = 0; i < 8; i++)
                         {
-                           h[i] = bx(&(bin[0]) + 4 * i);
+                           h[i] = tohexa(&(bin[0]) + 4 * i);
                         }
                 
                     return h;
@@ -645,7 +645,7 @@ string sformat(s3 s, int a, int b, int c)    // Function for S-Format instructio
                         opcode[i] -= '0';
                     }
                  
-                string imm = d2b(c,12);
+                string imm = decimaltobinary(c,12);
                  string imm1(7,'0'),imm2(5,'0');
 
                 for(int i=0;i<7;i++){
@@ -661,7 +661,7 @@ string sformat(s3 s, int a, int b, int c)    // Function for S-Format instructio
                     
                     for(int i = 0; i < 8; i++)
                         {
-                           h[i] = bx(&(bin[0]) + 4 * i);
+                           h[i] = tohexa(&(bin[0]) + 4 * i);
                         }
                 
                      return h;
@@ -708,7 +708,7 @@ string bformat(s3 s, int a, int b, int c)
                         opcode[i] -= '0';
                     }
                 
-                string imm = d2b(c,13);
+                string imm = decimaltobinary(c,13);
                 string imm1(6,'0'),imm2(4,'0');
                 
                 
@@ -729,7 +729,7 @@ string bformat(s3 s, int a, int b, int c)
                     
                 for(int i = 0; i < 8; i++)
                     {
-                           h[i] = bx(&(bin[0]) + 4 * i);
+                           h[i] = tohexa(&(bin[0]) + 4 * i);
                     }
                 
                 return h;
@@ -1284,7 +1284,7 @@ int main()                                  // Function main
                                 if(sign)
                                 { 
                                     immv =- immv;
-                                    cout << immv;
+                                    // cout << immv;
                                 }
 
                                 if(!(immv >=-2048 && immv <= 2047))
@@ -1408,7 +1408,7 @@ int main()                                  // Function main
                                     immv =- immv;
                                   }
 
-                                if(!(immv>=-2048&&immv<=2047))
+                                if(!(immv>=-2048 && immv<=2047))
                                   {
                                     file2 << "immediate value out of bound line " << line << endl;
                                   }
@@ -1553,7 +1553,7 @@ int main()                                  // Function main
                                     file2 << bformat(data,rdi,rs1i,immv) << endl;
 
                                 }   
-                            
+                            line++;
                          }
 
 
@@ -1593,7 +1593,7 @@ int main()                                  // Function main
                                 }
 
                             int r1=0;
-                            cout << r;
+                           // cout << r;
 
                             for(int i=0; i<65; i++)
                                {
@@ -1631,24 +1631,24 @@ int main()                                  // Function main
                                   power = power*10;                                  
                                }
 
-                            cout << immv;
+                           //  cout << immv;
 
                             if(immv >= (1<<20))
                               {
                                   file2 << "immediate value out of bound in line " << line << endl;
                               }
 
-                            string x = d2b(immv,20);
+                            string x = decimaltobinary(immv,20);
                             string a = x + r2 + opcode;
                             string h(8, '0');
                 
                     
                             for(int i = 0; i < 8; i++)
                                {
-                                  h[i] = bx(&(a[0]) + 4 * i);
+                                  h[i] = tohexa(&(a[0]) + 4 * i);
                                }
 
-                            file2<<h<<endl;
+                            file2 << h << endl;
                             line++;
 
                         }
@@ -1690,7 +1690,7 @@ int main()                                  // Function main
                                 }
 
                             int r1=0;
-                            cout << r;
+                           //  cout << r;
 
                             for(int i=0; i<65; i++)
                                {
@@ -1700,7 +1700,7 @@ int main()                                  // Function main
                                     }
                                } 
                             
-                            cout << r1;
+                            // cout << r1;
                             
                             for( ; k<ins.size(); k++)
                                {
@@ -1735,7 +1735,7 @@ int main()                                  // Function main
                                   file2 << "immediate value out of bound in line " << line << endl;
                               }
 
-                            string x = d2b(immv,20);
+                            string x = decimaltobinary(immv,20);
                             if(immv < 0)
                               {
                                 x[20] = 1;
@@ -1763,7 +1763,7 @@ int main()                                  // Function main
                     
                             for(int i = 0; i < 8; i++)
                                {
-                                  h[i] = bx(&(a[0]) + 4 * i);
+                                  h[i] = tohexa(&(a[0]) + 4 * i);
                                }
 
                             file2 << h <<endl;
@@ -1776,8 +1776,5 @@ int main()                                  // Function main
 
            
         return 0;
-    }}
-
-        
-
-    
+     }
+    }    
