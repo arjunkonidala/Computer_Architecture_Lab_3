@@ -806,9 +806,10 @@ int main()                                  // Function main
                                 break;
                              }
                          }
+                         ins.erase(0,remc);
                   }
                 
-                ins.erase(0,remc);                
+                                
                 string m;
 
                 for(int i = 0; i < ins.size(); i++)
@@ -819,6 +820,7 @@ int main()                                  // Function main
                           }
                      
                         m.push_back(ins[i]);
+                        
                    }
 
              
