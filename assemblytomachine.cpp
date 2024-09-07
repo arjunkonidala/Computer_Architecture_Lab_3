@@ -750,11 +750,11 @@ int main()                                  // Function main
         string lc;
 
         while(getline(f,lc))
-             {
+            {
                 int i=0 ; int r =0;
                 
                 for( ; i < lc.size(); i++)
-                   {
+                    {
                       if(lc[i]==':')
                         {  
                             r=1;
@@ -820,7 +820,7 @@ int main()                                  // Function main
                           }
                      
                         m.push_back(ins[i]);
-                        
+
                    }
 
              
@@ -875,12 +875,6 @@ int main()                                  // Function main
 
                         for (; k < ins.size(); k++)
                             {
-                                if (ins[k] == ',')
-                                {
-                                    k+=2;
-                                    break;
-                                }
-
                                 rs2.push_back(ins[k]);
                             }
                             int e=0;
@@ -906,7 +900,7 @@ int main()                                  // Function main
 
                         if(e!=3)
                         {
-                            file2<<"error in line "<<line<<"\n";
+                            file2<<"error in registers of line "<<line<<"\n";
                             return 0;
                         }
 
@@ -1773,10 +1767,11 @@ int main()                                  // Function main
                             line++;
                        }     
 
-
+                        else cout<<"error\n";
 
 
            
-        return 0;
+        
      }
+     return 0;
     }    
