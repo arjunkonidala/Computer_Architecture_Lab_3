@@ -1773,9 +1773,5 @@ int main()                                  // Function main
            
         
      }
-<<<<<<< HEAD
-     
-=======
      return 0;
->>>>>>> f9ed55f6cc383f6b77446f84543132af44a48589
     }    
