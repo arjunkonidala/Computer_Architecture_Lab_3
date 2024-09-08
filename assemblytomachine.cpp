@@ -743,7 +743,7 @@ string bformat(s3 s, int a, int b, int c)
 
 int main()                                  // Function main
     {   
-        ifstream f("input.s");
+        ifstream f("input.s");      //f here represents a represents the "input.s" file in 
         int l=1;
         string lc;
 
@@ -1247,18 +1247,22 @@ int main()                                  // Function main
 
                             for (  ; k < ins.size(); k++)
                                 {
-                                    if(ins[k] == ',')
+                                    if(ins[k] == '(')
                                       {
-                                            k+=2;
+                                            k+=1;
                                             break;
                                        }
 
-                                    rs1.push_back(ins[k]);
+                                    imm.push_back(ins[k]);
                                 }
 
                             for(  ; k < ins.size(); k++)
-                               {
-                                   imm.push_back(ins[k]);
+                               {    if(ins[k] == ')')
+                                      {
+                                            k+=1;
+                                            break;
+                                       }
+                                   rs1.push_back(ins[k]);
                                }
 
                             int e = 0;
