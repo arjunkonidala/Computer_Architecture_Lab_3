@@ -1698,7 +1698,7 @@ int main()                                  // Function main
 
                 else if(ifujf(m))
                        {
-                            string opcode = "1101111";
+                            string opcode="1101111";
                             
                             for(int i=0; i<7; i++)
                                {
@@ -1724,7 +1724,7 @@ int main()                                  // Function main
                                {
                                   if(ins[k] == ',')
                                     {
-                                       k += 2;
+                                       k+=2;
                                        break;
                                     }
 
@@ -1732,7 +1732,7 @@ int main()                                  // Function main
                                 }
 
                             int r1=0;
-                           //  cout << r;
+                           // cout << r;
 
                             for(int i=0; i<65; i++)
                                {
@@ -1748,80 +1748,69 @@ int main()                                  // Function main
                                {
                                   imm.push_back(ins[k]);
                                }
+                            auto it=ll.find(imm);
+                            if(it==ll.end()){
+                                 int sign=0;
+
+                                 if(imm[0]=='-')
+                                   {
+                                     sign=1;
+                                   }
                             
-                            if(imm[0]=='-')
-                              {
-                                  file2 << "immeddiate out of bound in line " << line << endl;
-                              }
-                              
-                            int immv =0;
-                            int power=1;
-                            string r2(5,'0');
-
-                            for(int i = 0; i < 5; i++)
-                               {
-                                  r2[4 - i] = r1 & 1;
-                                  r1= r1>> 1;
-                               }
-                    
-                            for(int i=imm.size()-1;i>=0;i--)
-                               {
-                                  immv += (imm[i]-'0')*power;
-                                  power = power*10;                                  
-                               }
-
-                            cout << immv;
-
-                            if(immv >= (1 << 20))
-                              {
-                                  file2 << "immediate value out of bound in line " << line << endl;
-                              }
-
-                            string x = decimaltobinary(immv,20);
-
-                            if(immv < 0)
-                              {
-                                x[20] = 1;
-                              }
-
-                            else 
-                                {
-                                    x[20] = 0;
+                                 int immv =0;
+                                 int power=1;
+                               
+                                 for(int i = imm.size()-1; i >= sign; i--)
+                                    {  
+                                       if(imm[i]>'9'||imm[i]<'0')
+                                         {
+                                            cout<<"immediate value is incorrect in line"<<line<<endl;
+                                            return 0;
+                                         }
+                                       
+                                       immv += (imm[i] - '0')*power;
+                                       power = power*10;                                  
+                                    }
+                            
+                                if(sign)
+                                { 
+                                    immv =- immv;
                                 }
-                            
-                            string imm1(10,'0'),imm2(8,'0');
+                                 
+                                if(!(immv >= 0 && immv < (1<<20)))
+                                {
+                                      file2 << "immediate value out of bound in line " << line << endl;
+                                      return 0;
+                                }
 
-                            for(int i = 0; i < 10; i++)
-                               {
-                                  imm1[i] = x[9+i];
-                               }
-                            
-                            for(int i=0; i<8;i++)
-                               {
-                                  imm2[i] =x[i];
-                               }
-                            
-                            string a = x[20] + imm1 + x[8] + imm2 + r2 + opcode;
-                            string h(8, '0');
-                
-                    
-                            for(int i = 0; i < 8; i++)
-                               {
-                                  h[i] = tohexa(&(a[0]) + 4 * i);
-                               }
+                                
+                                
+                            }
+                            else{
+                                 int linenum = ll[imm];
+                                    int immv = linenum*4 - line*4;
+                                    
+                                    if(!(immv >= 0 && immv < (1<<20)))
+                                      {
+                                        file2<<"immediate value out of bound in line "<<line<<endl;
+                                      }
+                                   
+                            }
 
-                            file2 << h <<endl;
-
+                            
+                            
                             line++;
+
                        }     
 
-                        else cout<<"error\n";
+                        else {cout<<"error in line "<<line<<"\n";line++;
 
 
            
         
                 }
-     return 0;
+    
      
     }    
+    }
 
