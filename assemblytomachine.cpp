@@ -860,7 +860,7 @@ int main()                                  // Function main
                                     {
                                         k+=2;
                                         break;
-                                    }           
+                                    }           //destination register separated
 
                                 rd.push_back(ins[k]);
                             }
@@ -871,14 +871,14 @@ int main()                                  // Function main
                                     {
                                         k+=2;
                                         break;
-                                    }
+                                    }   //rs1 gets separated
 
                                 rs1.push_back(ins[k]);
                             }
 
                         for (; k < ins.size(); k++)
                             {
-                                rs2.push_back(ins[k]);
+                                rs2.push_back(ins[k]);// rs2 gets separated
                             }
 
                         int e = 0;
@@ -905,16 +905,16 @@ int main()                                  // Function main
 
                             }
 
-                        if(e != 3)
+                        if(e != 3)//checks whether all three registers are valid are not
                           {
-                               file2<<"error in registers of line "<< line <<"\n";
+                               cout<<"error in registers of line "<< line <<"\n";
                                return 0;
                           } 
-
+                                //return 0 gets program terminated
                         for (int i = 0; i < 10; i++)
                             {
                                 if (rftable[i].inst == m)
-                                    {
+                                    {                               //extracts data related to operation
                                         data = rftable[i];
                                         break;
                                     }
@@ -930,7 +930,7 @@ int main()                                  // Function main
                             iftable[0] = s3("addi", 0, 0);
                             iftable[1] = s3("srai", 0x5,1);
                             iftable[2] = s3("xori", 0x4, 0x00);
-                            iftable[3] = s3("ori", 0x6, 0x00);
+                            iftable[3] = s3("ori", 0x6, 0x00);          //stores instruction , f3, f7 together together in array of structs
                             iftable[4] = s3("andi", 0x7, 0x00);
                             iftable[5] = s3("slli", 0x1, 0x1);
                             iftable[6] = s3("srli", 0x5, 0x1);
@@ -938,8 +938,8 @@ int main()                                  // Function main
                             s3 data("0", 0, 0);
 
                             int k = 0;
-                            string rd, rs1, imm;
-                            int rdi = -1, rs1i = -1;
+                            string rd, rs1, imm;//registers to be stored
+                            int rdi = -1, rs1i = -1;//register values to be stored
 
                             for (  ; k < ins.size(); k++)
                                 {
@@ -1001,9 +1001,9 @@ int main()                                  // Function main
 
                                 }
                                 
-                                if(e!=62)
+                                if(e!=62)                       //checks whether all registers are valid 
                                   {
-                                     file2<<"error in line "<<line<<"\n";
+                                     file2<<"error in registers of line "<<line<<"\n";
 
                                      return 0;
                                   }
@@ -1012,13 +1012,15 @@ int main()                                  // Function main
                                 {
                                     if (iftable[i].inst == m)
                                         {
-                                            data = iftable[i];
+                                            data = iftable[i];//extracts data related to operation
                                             break;
                                         }
                                 }
 
                             int sign=0;
-
+                            if(imm.size()==0){
+                                cout<<"error in line "<<line<<endl;
+                            }
                             if(imm[0]=='-')
                               {
                                 sign=1;
@@ -1043,12 +1045,12 @@ int main()                                  // Function main
                               {
                                   immv=-immv; 
                               }
+                              //converting imm value to its numerical value if its valid
 
                             for(int i=0;i<7;i++)
                                {
                                   if(iftable[i].inst==m)
-                                    {
-                                    
+                                    {                                    //if operators are srai ,slli and srli their limit will confined
                                        if(iftable[i].f7==1)
                                          {
                                            if(immv >= 0 && immv < 64) 
@@ -1091,7 +1093,7 @@ int main()                                  // Function main
                                 ilftable[0] = s3("lb", 0,0 );
                                 ilftable[1] = s3("lh", 0x1,0);
                                 ilftable[2] = s3("lw", 0x2,0 );
-                                ilftable[3] = s3("ld", 0x3,0 );
+                                ilftable[3] = s3("ld", 0x3,0 );         //stroes this data to ilf table array 
                                 ilftable[4] = s3("lbu", 0x4,1);
                                 ilftable[5] = s3("lhu", 0x5,1 );
                                 ilftable[6] = s3("lwu", 0x6,1 );
@@ -1100,7 +1102,7 @@ int main()                                  // Function main
                                 
                                 int k=0;
                                 string rd,rs1,imm;
-                                int rdi,rs1i;
+                                int rdi,rs1i; //register values will get stored here
                                 
                                 for( ; k < ins.size(); k++)
                                    {
@@ -1160,9 +1162,9 @@ int main()                                  // Function main
 
                                     }
                                 
-                                if(e != 62)
+                                if(e != 62)//verifies the correctness of registers
                                   {
-                                    file2<<"error in register of line "<<line<<"\n";
+                                    cout<<"error in register of line "<<line<<"\n";
                                     return 0;
                                   }
 
@@ -1206,9 +1208,9 @@ int main()                                  // Function main
 
                                 if(!(immv >= -2048 && immv <= 2047))
                                   {
-                                     file2<<"immediate value out of bound line "<<line<<endl;
+                                     cout<<"immediate value out of bound line "<<line<<endl;return 0;
                                   }
-                                
+                                //converts immediate string to its integer value
                                 file2<<ilformat(data,rdi,rs1i,immv)<<endl;
                                 
                                 line++;
@@ -1287,7 +1289,7 @@ int main()                                  // Function main
 
                                 if(e!=62)
                                   {
-                                     file2 << "error in registerrs of line " << line << "\n";
+                                     cout << "error in registers of line " << line << "\n";
                                      return 0;
                                   }
 
@@ -1321,9 +1323,9 @@ int main()                                  // Function main
                                 }
 
                                 if(!(immv >=-2048 && immv <= 2047))
-                                  {
-                                     file2 <<"immediate value out of bound in line " << line << endl;
-                                  }
+                                    {
+                                     cout <<"immediate value out of bound in line " << line << endl;return 0;
+                                    }
 
                                 file2 << ijformat(data,rdi,rs1i,immv) << endl;
                                 line++;
@@ -1335,7 +1337,7 @@ int main()                                  // Function main
                        {
                                  sftable[0] = s3("sb", 0x0,0 );
                                  sftable[1] = s3("sh", 0x1, 0);
-                                 sftable[2] = s3("sw", 0x2, 0);
+                                 sftable[2] = s3("sw", 0x2, 0);         //stores the this data to sftable array
                                  sftable[3] = s3("sd", 0x3, 0);
                                  s3 data("0", 0, 0);
                                 
@@ -1403,9 +1405,9 @@ int main()                                  // Function main
 
                                     }
                                 
-                                if(e!=62)
+                                if(e!=62)// checks the correctness of registers
                                   {
-                                     file2<<"error in registers of line "<<line<<"\n";
+                                     cout<<"error in registers of line "<<line<<"\n";
 
                                      return 0;
                                   }
@@ -1449,9 +1451,9 @@ int main()                                  // Function main
 
                                 if(!(immv>=-2048 && immv<=2047))
                                   {
-                                    file2 << "immediate value out of bound line " << line << endl;
+                                    cout << "immediate value out of bound line " << line << endl;return 0;
                                   }
-
+                                    //will handle errors in immediate values if any and if correct immediate then convert it to integer if correct input given
                                 file2 << sformat(data,rdi,rs1i,immv) << endl;
                                 line++;
 
@@ -1463,7 +1465,7 @@ int main()                                  // Function main
                             bftable[0] = s3("beq", 0x0,0 );    
                             bftable[1] = s3("bne", 0x1, 0);
                             bftable[2] = s3("blt", 0x4,0 );
-                            bftable[3] = s3("bge", 0x5, 0);
+                            bftable[3] = s3("bge", 0x5, 0);         //loads data to bf table if branch statement
                             bftable[4] = s3("bltu", 0x6,0 );
                             bftable[5] = s3("bgeu", 0x7, 0);                            
                             s3 data("0", 0, 0);
@@ -1526,9 +1528,9 @@ int main()                                  // Function main
 
                                 }
                                 
-                            if(e!=62)
+                            if(e!=62)           //whether all registers are correct are not 
                               {
-                                file2<<"error in registers of line "<<line<<"\n";
+                                cout<<"error in registers of line "<<line<<"\n";
                                 return 0;
                               }
 
@@ -1536,7 +1538,7 @@ int main()                                  // Function main
                                 {
                                     if (bftable[i].inst == m)
                                        {
-                                            data = bftable[i];
+                                            data = bftable[i];  //extracts data from bftable
                                             break;
                                        }
                                 }
@@ -1544,7 +1546,7 @@ int main()                                  // Function main
                              
                             auto it=ll.find(imm);
                             
-                            if(it==ll.end())
+                            if(it==ll.end())        //if that label is not present then  it will be considered a immediate value
                               {
                                  int sign=0;
 
@@ -1566,7 +1568,7 @@ int main()                                  // Function main
                                        
                                        immv += (imm[i] - '0')*power;
                                        power = power*10;                                  
-                                    }
+                                    }                           //if the immediate value doesn't satisfy the decimal notation error occurs
                             
                                  if(sign)
                                  { 
@@ -1575,7 +1577,8 @@ int main()                                  // Function main
                                  
                                  if(!(immv >=-4096&& immv < 4096))
                                    {
-                                      file2 << "immediate value out of bound in line " << line << endl;
+                                      cout << "immediate value out of bound in line " << line << endl;
+                                      return 0;
                                    }
                                  
                                  file2 << bformat(data,rdi,rs1i,immv) << endl;
@@ -1588,7 +1591,8 @@ int main()                                  // Function main
                                     
                                     if(!(immv >=-4096&& immv < 4096))
                                       {
-                                        file2<<"immediate value out of bound in line "<<line<<endl;
+                                        cout<<"immediate value out of bound in line "<<line<<endl;
+                                        return 0;
                                       }
                                    
                                     file2 << bformat(data,rdi,rs1i,immv) << endl;
@@ -1600,7 +1604,7 @@ int main()                                  // Function main
 
                 else if(ifuf(m))
                        {
-                            string opcode="0110111";
+                            string opcode="0110111";        //opcode hardcoded
                             
                             for(int i=0; i<7; i++)
                                {
@@ -1658,7 +1662,7 @@ int main()                                  // Function main
                                   r1= r1>> 1;
                                }
                             int immv=0;
-                            if(imm[0]=='0'&&imm[1]=='x'){
+                            if(imm[0]=='0'&&imm[1]=='x'){//if hexa decimal notation given
                                 int power=1;
                             
                     
@@ -1675,10 +1679,10 @@ int main()                                  // Function main
                                }
                             }
                             
-                            else{
+                            else{               //decimal taken
                             if(imm[0]=='-')
                               {
-                                  file2 << "immeddiate out of bound in line " << line << endl;
+                                  cout << "immeddiate out of bound in line " << line << endl;
                                   return 0;
                               }
                               
@@ -1702,7 +1706,7 @@ int main()                                  // Function main
 
                             if(immv >= (1<<20))
                               {
-                                  file2 << "immediate value out of bound in line " << line << endl;
+                                  cout<< "immediate value out of bound in line " << line << endl;
                               }
 
                             string x = decimaltobinary(immv,20);
@@ -1723,7 +1727,7 @@ int main()                                  // Function main
 
                 else if(ifujf(m))
                        {
-                            string opcode="1101111";
+                            string opcode="1101111";            //opcode hardcoded
                             
                             for(int i=0; i<7; i++)
                                {
@@ -1757,7 +1761,7 @@ int main()                                  // Function main
                                 }
 
                             int r1=0;
-                           // cout << r;
+                           
 
                             for(int i=0; i<65; i++)
                                {
@@ -1767,7 +1771,7 @@ int main()                                  // Function main
                                     }
                                } 
                             
-                            // cout << r1;
+                            
                             
                             for( ; k<ins.size(); k++)
                                {
@@ -1775,7 +1779,7 @@ int main()                                  // Function main
                                }
                             auto it=ll.find(imm);
                             int immv=0;
-                            if(it==ll.end()){
+                            if(it==ll.end()){           //if label not found in the map data structure ll will be considered as number and if it doesn't have properties of number then it shows errors
                                 
                                 
                                  int sign=0;
@@ -1807,7 +1811,7 @@ int main()                                  // Function main
                                  
                                 if(!(immv >= 0 && immv < (1<<20)))
                                 {
-                                      file2 << "immediate value out of bound in line " << line << endl;
+                                      cout << "immediate value out of bound in line " << line << endl;
                                       return 0;
                                 }
 
@@ -1820,7 +1824,8 @@ int main()                                  // Function main
                                     
                                     if(!(immv >(-(1<<20)) && immv < (1<<20)))
                                       {
-                                        file2<<"immediate value out of bound in line "<<line<<endl;
+                                        cout<<"immediate value out of bound in line "<<line<<endl;
+                                        return 0;
                                       }
                                    
                             }
@@ -1853,6 +1858,7 @@ int main()                                  // Function main
 
                         else {
                             cout<<"error in line "<<line<<"\n";
+                            return 0;
                             line++;        
                         }
     
