@@ -402,6 +402,7 @@ string rformat(s3 s, int a, int b, int c)      // Function for R-format instruct
                     {
                         h[i] = tohexa(&(bi[0]) + 4 * i);
                     }
+
                 return h;
             }
 
@@ -466,10 +467,10 @@ string iformat(s3 s,int a,int b,int c)        // Function for I-format instructi
                                    dummy[i]-='0';
                                  }
                               
-                              imm=dummy+decimaltobinary(c,6);
+                              imm = dummy + decimaltobinary(c,6);
                             }
 
-                    string bin=imm+rs1+f3+rd+opcode;
+                    string bin = imm + rs1 + f3 + rd + opcode;
 
                     if(s.inst=="srai")
                       {
@@ -531,7 +532,7 @@ string ilformat(s3 s,int a,int b,int c)         // Function for load instruction
                          imm = decimaltobinary(c,12);
                       
 
-                    string bin=imm+rs1+f3+rd+opcode;
+                    string bin = imm + rs1 + f3 + rd + opcode;
 
                    
                        
@@ -653,7 +654,7 @@ string sformat(s3 s, int a, int b, int c)    // Function for S-Format instructio
                     imm2[i]=imm[7+i];
                 }
                 
-                string bin = imm1+ rs1 + rs2 +f3+ imm2 + opcode;
+                string bin = imm1 + rs1 + rs2 +f3 + imm2 + opcode;
                    
                 string h(8, '0');
                     
@@ -762,7 +763,7 @@ int main()                                  // Function main
                 
                 string label;                   //if line contains the label it gets stored in this string
                 
-                if(r)                       //loop for storing label in "string label" if line contaiins a label
+                if(r)                           //loop for storing label in "string label" if line contaiins a label
                   {
                        for(int j=0; j<i; j++)
                           {
@@ -773,12 +774,12 @@ int main()                                  // Function main
                   }
                 
                 l++;
-             }//for now we will have all labels mapped to their line number in mapp ll 
+             }                               //for now we will have all labels mapped to their line number in mapp ll 
         
-        ifstream file1("input.s");    //f1 indicates the "input.s" file 
-        ofstream file2("output.hex");   //f2 represents the file in which output is to be printed
+        ifstream file1("input.s");           //f1 indicates the "input.s" file 
+        ofstream file2("output.hex");        //f2 represents the file in which output is to be printed
 
-        string ins;//store the instruction
+        string ins;                           //store the instruction
         int line = 1;
 
         while(getline(file1,ins))
@@ -807,11 +808,11 @@ int main()                                  // Function main
                              }
                          }
                       
-                      ins.erase(0,remc);// if label present , we will clear it from the line using erase 
+                      ins.erase(0,remc);                           // if label present , we will clear it from the line using erase 
                   }
                 
                                 
-                string m;//this stores the operator that is to be performed with given operands
+                string m;                                          //this stores the operator that is to be performed with given operands
 
                 for(int i = 0; i < ins.size(); i++)
                    {
@@ -824,9 +825,9 @@ int main()                                  // Function main
 
                    }
 
-             
-//from now on we will write a if ,else ifs and else conditionals 
-//this is segregating the operators to their corresponding group
+              
+                                                                               //from now on we will write a if ,else ifs and else conditionals 
+                                                                               //this is segregating the operators to their corresponding group
              
                  if (ifrf(m))      // For R-Format instructions 
                     {
@@ -905,12 +906,12 @@ int main()                                  // Function main
 
                             }
 
-                        if(e != 3)//checks whether all three registers are valid are not
+                        if(e != 3)                     //checks whether all three registers are valid are not
                           {
                                cout<<"error in registers of line "<< line <<"\n";
                                return 0;
                           } 
-                                //return 0 gets program terminated
+                                                      //return 0 gets program terminated
                         for (int i = 0; i < 10; i++)
                             {
                                 if (rftable[i].inst == m)
@@ -938,8 +939,8 @@ int main()                                  // Function main
                             s3 data("0", 0, 0);
 
                             int k = 0;
-                            string rd, rs1, imm;//registers to be stored
-                            int rdi = -1, rs1i = -1;//register values to be stored
+                            string rd, rs1, imm;                       //registers to be stored
+                            int rdi = -1, rs1i = -1;                   //register values to be stored
 
                             for (  ; k < ins.size(); k++)
                                 {
@@ -1026,8 +1027,8 @@ int main()                                  // Function main
                                 sign=1;
                               }
                             
-                            int immv =0;
-                            int power=1;
+                            int immv = 0;
+                            int power = 1;
 
                             for(int i=imm.size()-1;i>=sign;i--)
                                {    if(imm[i]>'9'||imm[i]<'0')
@@ -1152,12 +1153,14 @@ int main()                                  // Function main
                                    {
                                      if(rs1 == aliastable[i].a)
                                        {
-                                          rs1i = aliastable[i].b;e+=7;
+                                          rs1i = aliastable[i].b;
+                                          e+=7;
                                        }
                                     
                                      if(rd == aliastable[i].a)
                                        {
-                                          rdi = aliastable[i].b;e+=55;
+                                          rdi = aliastable[i].b;
+                                          e+=55;
                                        }
 
                                     }
@@ -1518,12 +1521,14 @@ int main()                                  // Function main
                                 {
                                     if (rs1 == aliastable[i].a)
                                         {
-                                            rs1i = aliastable[i].b;e+=7;
+                                            rs1i = aliastable[i].b;
+                                            e+=7;
                                         }
                                     
                                     if (rd == aliastable[i].a)
                                         {
-                                            rdi = aliastable[i].b;e+=55;
+                                            rdi = aliastable[i].b;
+                                            e+=55;
                                         }
 
                                 }
@@ -1638,7 +1643,7 @@ int main()                                  // Function main
                                 }
 
                             int r1=0;
-                           // cout << r;
+                               // cout << r;
 
                             for(int i=0; i<65; i++)
                                {
@@ -1654,6 +1659,7 @@ int main()                                  // Function main
                                {
                                   imm.push_back(ins[k]);
                                }
+
                             string r2(5,'0');
 
                             for(int i = 0; i < 5; i++)
@@ -1661,49 +1667,52 @@ int main()                                  // Function main
                                   r2[4 - i] = r1 & 1;
                                   r1= r1>> 1;
                                }
+
                             int immv=0;
-                            if(imm[0]=='0'&&imm[1]=='x'){//if hexa decimal notation given
+                            if(imm[0]=='0'&&imm[1]=='x')//if hexa decimal notation given
+                              {
                                 int power=1;
                             
                     
                                 for(int i=imm.size()-1;i>=2;i--)
-                               {    
-                                  if(imm[i]>'9'||imm[i]<'0')
-                                    {
-                                        cout<<"immediate value is incorrect in line"<<line<<endl;
-                                        return 0;
-                                    }
+                                   {    
+                                      if(imm[i]>'9'||imm[i]<'0')
+                                        {
+                                            cout<<"immediate value is incorrect in line"<<line<<endl;
+                                            return 0;
+                                        }
                                   
-                                  immv += (imm[i]-'0')*power;
-                                  power = power*16;                                  
-                               }
-                            }
-                            
-                            else{               //decimal taken
-                            if(imm[0]=='-')
-                              {
-                                  cout << "immeddiate out of bound in line " << line << endl;
-                                  return 0;
+                                      immv += (imm[i]-'0')*power;
+                                      power = power*16;                                  
+                                   }
                               }
+                            
+                            else
+                                {               //decimal taken
+                                  if(imm[0]=='-')
+                                    {
+                                       cout << "immeddiate out of bound in line " << line << endl;
+                                       return 0;
+                                    }
                               
                             
-                            int power=1;
+                                  int power=1;
                             
                     
-                            for(int i=imm.size()-1;i>=0;i--)
-                               {    
-                                  if(imm[i]>'9'||imm[i]<'0')
-                                    {
-                                        cout<<"immediate value is incorrect in line"<<line<<endl;
-                                        return 0;
-                                    }
+                                  for(int i=imm.size()-1;i>=0;i--)
+                                     {    
+                                        if(imm[i]>'9'||imm[i]<'0')
+                                          {
+                                             cout<<"immediate value is incorrect in line"<<line<<endl;
+                                             return 0;
+                                          }
                                   
-                                  immv += (imm[i]-'0')*power;
-                                  power = power*10;                                  
-                               }
-                            }
+                                        immv += (imm[i]-'0')*power;
+                                        power = power*10;                                  
+                                     }
+                                }
                             //  cout << immv;
-
+ 
                             if(immv >= (1<<20))
                               {
                                   cout<< "immediate value out of bound in line " << line << endl;
@@ -1777,11 +1786,12 @@ int main()                                  // Function main
                                {
                                   imm.push_back(ins[k]);
                                }
+
                             auto it=ll.find(imm);
                             int immv=0;
-                            if(it==ll.end()){           //if label not found in the map data structure ll will be considered as number and if it doesn't have properties of number then it shows errors
-                                
-                                
+
+                            if(it==ll.end())                 //if label not found in the map data structure ll will be considered as number and if it doesn't have properties of number then it shows errors                                
+                              {                  
                                  int sign=0;
 
                                  if(imm[0]=='-')
@@ -1805,21 +1815,23 @@ int main()                                  // Function main
                                     }
                             
                                 if(sign)
-                                { 
-                                    immv =- immv;
-                                }
+                                  { 
+                                      immv =- immv;
+                                  }
                                  
                                 if(!(immv >= 0 && immv < (1<<20)))
-                                {
+                                  {
                                       cout << "immediate value out of bound in line " << line << endl;
                                       return 0;
-                                }
+                                  }
 
                                 
                                 
-                            }
-                            else{
-                                 int linenum = ll[imm];
+                              }
+
+                            else
+                                {
+                                    int linenum = ll[imm];
                                     immv = linenum*4 - line*4;
                                     
                                     if(!(immv >(-(1<<20)) && immv < (1<<20)))
@@ -1828,16 +1840,22 @@ int main()                                  // Function main
                                         return 0;
                                       }
                                    
-                            }
+                                }
+
                             string x = decimaltobinary(immv,21);
                             string rd=decimaltobinary(r1,5);
                             string x1(10,'\0');string  x2(8,'\0');
-                            for(int i=0;i<10;i++){
-                                x1[i]=x[10+i];
-                            }
-                            for(int i=0;i<8;i++){
-                                x2[i]=x[1+i];
-                            }
+
+                            for(int i=0;i<10;i++)
+                               {
+                                  x1[i]=x[10+i];
+                               }
+
+                            for(int i=0;i<8;i++)
+                               {
+                                  x2[i]=x[1+i];
+                               }
+
                             string bi=x[0]+x1+x[9]+x2;
                             string bin=bi+rd+opcode;
 
@@ -1856,12 +1874,14 @@ int main()                                  // Function main
 
                        }     
 
-                        else {
-                            cout<<"error in line "<<line<<"\n";
-                            return 0;
-                            line++;        
-                        }
+                else 
+                    {
+                        cout<<"error in line "<<line<<"\n";
+                        return 0;
+                        line++;        
+                    }
     
      
-    }    
+           }  
+
     }
