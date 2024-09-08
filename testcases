@@ -27,8 +27,9 @@ sb x6, 0(x4)
 sh t2, 2(x6)
 L1: sw x7, 12(x5)
 sd x6, 24(t6)
-jalr x30, t0, 8
-lui x9, 123455
+jalr x30, 8(t0)
+lui x9, 0x12f36
+jal x5, L1
 beq x4, t2, L2
 bne x5, x7, L3
 blt t0, t6, L1
