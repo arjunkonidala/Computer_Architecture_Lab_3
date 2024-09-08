@@ -723,7 +723,7 @@ string bformat(s3 s, int a, int b, int c)
                    }
                 
                 string bin = imm[0] + imm1 + rs2 + rs1 + f3 + imm2 + imm[1] + opcode;
-                cout<<c<<endl;
+                
                 string h(8, '0');
                 
                     
@@ -1021,7 +1021,7 @@ int main()                                  // Function main
                             int power=1;
 
                             for(int i=imm.size()-1;i>=sign;i--)
-                               {
+                               {    if(imm[i]>'9'||imm[i]<'0'){cout<<"immediate value is incorrect in line"<<line<<endl;return 0;}
                                   immv += (imm[i]-'0')*power;
                                   power = power*10;
                                                                  
@@ -1085,7 +1085,7 @@ int main()                                  // Function main
                                 int k=0;
                                 string rd,rs1,imm;
                                 int rdi,rs1i;
-                                for (  ; k < ins.size(); k++)
+                                for ( ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ' ')
                                         {
@@ -1094,7 +1094,7 @@ int main()                                  // Function main
                                         }
                                 }
 
-                            for (  ; k < ins.size(); k++)
+                            for ( ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ',')
                                         {
@@ -1104,7 +1104,7 @@ int main()                                  // Function main
 
                                     rd.push_back(ins[k]);
                                 }
-                            for (  ; k < ins.size(); k++)
+                            for ( ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == '(')
                                         {
@@ -1114,7 +1114,7 @@ int main()                                  // Function main
 
                                     imm.push_back(ins[k]);
                                 }
-                            for (  ; k < ins.size(); k++)
+                            for ( ; k < ins.size(); k++)
                                 {
                                     if (ins[k] == ')')
                                         {
@@ -1141,7 +1141,7 @@ int main()                                  // Function main
                                 
                                 if(e!=62)
                                 {
-                                    file2<<"error in line "<<line<<"\n";
+                                    file2<<"error in register of line "<<line<<"\n";
 
                                     return 0;
                                 }
@@ -1166,7 +1166,7 @@ int main()                                  // Function main
                             int immv =0;
                             int power=1;
                             for(int i=imm.size()-1;i>=sign;i--)
-                               {
+                               {if(imm[i]>'9'||imm[i]<'0'){cout<<"immediate value is incorrect in line"<<line<<endl;return 0;}
                                   immv+=(imm[i]-'0')*power;
                                   power=power*10;
                                 
@@ -1227,12 +1227,6 @@ int main()                                  // Function main
 
                             for(  ; k < ins.size(); k++)
                                {
-                                  if(ins[k] == ',')
-                                    {
-                                        k++;
-                                        break;
-                                    }
-
                                    imm.push_back(ins[k]);
                                 }
 
@@ -1257,7 +1251,7 @@ int main()                                  // Function main
 
                                 if(e!=62)
                                   {
-                                     file2 << "error in line " << line << "\n";
+                                     file2 << "error in registerrs of line " << line << "\n";
                                      return 0;
                                   }
 
@@ -1272,7 +1266,7 @@ int main()                                  // Function main
                                 int power = 1;
                                 
                                 for(int i = imm.size()-1; i >= sign; i--)
-                                   {
+                                   {if(imm[i]>'9'||imm[i]<'0'){cout<<"immediate value is incorrect in line"<<line<<endl;return 0;}
                                       immv += (imm[i]-'0')*power;
                                       power = power*10;                             
                                    }
@@ -1368,7 +1362,7 @@ int main()                                  // Function main
                                 
                                 if(e!=62)
                                   {
-                                     file2<<"error in line "<<line<<"\n";
+                                     file2<<"error in registers of line "<<line<<"\n";
 
                                      return 0;
                                   }
@@ -1394,7 +1388,7 @@ int main()                                  // Function main
                                 int power=1;
 
                                 for(int i=imm.size()-1;i>=sign;i--)
-                                   {
+                                   {    if(imm[i]>'9'||imm[i]<'0'){cout<<"immediate value is incorrect in line"<<line<<endl;return 0;}
                                       immv+=(imm[i]-'0')*power;
                                       power=power*10;                                  
                                    }
@@ -1462,11 +1456,7 @@ int main()                                  // Function main
 
                             for (  ; k < ins.size(); k++)
                                 {
-                                    if (ins[k] == ',')
-                                        {
-                                            k++;
-                                            break;
-                                        }
+                                    
 
                                     imm.push_back(ins[k]);
                                 }
@@ -1489,7 +1479,7 @@ int main()                                  // Function main
                                 
                             if(e!=62)
                               {
-                                file2<<"error in line "<<line<<"\n";
+                                file2<<"error in registers of line "<<line<<"\n";
                                 return 0;
                               }
 
@@ -1502,7 +1492,7 @@ int main()                                  // Function main
                                        }
                                 }
 
-                            int immd=0;
+                             
                             auto it=ll.find(imm);
                             
                             if(it==ll.end())
@@ -1518,7 +1508,7 @@ int main()                                  // Function main
                                  int power=1;
                                
                                  for(int i = imm.size()-1; i >= sign; i--)
-                                    {
+                                    {if(imm[i]>'9'||imm[i]<'0'){cout<<"immediate value is incorrect in line"<<line<<endl;return 0;}
                                        immv += (imm[i] - '0')*power;
                                        power = power*10;                                  
                                     }
@@ -1541,7 +1531,7 @@ int main()                                  // Function main
                                     int linenum = ll[imm];
                                     int immv = linenum*4 - line*4;
                                     
-                                    if(!(immv >= -2048 && immv <= 2047))
+                                    if(!(immv > -2048 && immv <= 2047))
                                       {
                                         file2<<"immediate value out of bound in line "<<line<<endl;
                                       }
@@ -1622,12 +1612,12 @@ int main()                                  // Function main
                                }
                     
                             for(int i=imm.size()-1;i>=0;i--)
-                               {
+                               {    if(imm[i]>'9'||imm[i]<'0'){cout<<"immediate value is incorrect in line"<<line<<endl;return 0;}
                                   immv += (imm[i]-'0')*power;
                                   power = power*10;                                  
                                }
 
-                           //  cout << immv;
+                            //  cout << immv;
 
                             if(immv >= (1<<20))
                               {
@@ -1772,6 +1762,6 @@ int main()                                  // Function main
 
            
         
-     }
+                }
      return 0;
     }    

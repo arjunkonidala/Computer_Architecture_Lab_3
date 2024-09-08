@@ -1,5 +1,5 @@
 add x2, x4, x0
-or zero, s9, x18
+,hbjerydyhsbj: jalr zero, s9, 18
 sll x14, x31, x17
-and t2, t5, t1
+bjsdbj: bltu x0, x5, ,hbjerydyhsbj
 srl s3, a2, a5
