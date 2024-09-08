@@ -1676,13 +1676,14 @@ int main()                                  // Function main
                     
                                 for(int i=imm.size()-1;i>=2;i--)
                                    {    
-                                      if(imm[i]>'9'||imm[i]<'0')
+                                      if(!((imm[i]>='0'&&imm[i]<='9')||(imm[i]>='a')&&imm[i]<='f'))
                                         {
                                             cout<<"immediate value is incorrect in line"<<line<<endl;
                                             return 0;
                                         }
-                                  
+                                        if((imm[i]>='0'&&imm[i]<='9'))
                                       immv += (imm[i]-'0')*power;
+                                      else immv += (imm[i]-'a'+10)*power;
                                       power = power*16;                                  
                                    }
                               }
