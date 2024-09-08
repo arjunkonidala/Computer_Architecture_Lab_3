@@ -6,5 +6,5 @@ assemblytomachine.o:assemblytomachine.cpp
 	@g++ -c assemblytomachine.cpp 
 	
 clean:
-	@rm riscv_asm 
+	@rm riscv_asm assemblytomachine.o 
 
