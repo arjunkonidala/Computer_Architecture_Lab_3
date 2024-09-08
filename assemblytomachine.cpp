@@ -743,15 +743,15 @@ string bformat(s3 s, int a, int b, int c)
 
 int main()                                  // Function main
     {   
-        ifstream f("input.s");      //f here represents a represents the "input.s" file in 
-        int l=1;
-        string lc;
+        ifstream f("input.s");      //f here represents a represents the "input.s" file in same directory of code execution
+        int l=1;                    //indicates the line we are in the loop
+        string lc;                  //the line gets stored in string
 
-        while(getline(f,lc))
+        while(getline(f,lc))        //this loop iterates on every line
             {
                 int i=0 ; int r =0;
                 
-                for( ; i < lc.size(); i++)
+                for( ; i < lc.size(); i++)      //this loop verifies whether the line contains  a label 
                    {
                       if(lc[i]==':')
                         {  
@@ -760,25 +760,25 @@ int main()                                  // Function main
                         }
                    }
                 
-                string label;
+                string label;                   //if line contains the label it gets stored in this string
                 
-                if(r)
+                if(r)                       //loop for storing label in "string label" if line contaiins a label
                   {
                        for(int j=0; j<i; j++)
                           {
                             label.push_back(lc[j]);
                           }
                 
-                       ll[label]=l;
+                       ll[label]=l;         //mapping to to label and its corresponding line number
                   }
                 
                 l++;
-             }
+             }//for now we will have all labels mapped to their line number in mapp ll 
         
-        ifstream file1("input.s");
-        ofstream file2("output.hex");
+        ifstream file1("input.s");    //f1 indicates the "input.s" file 
+        ofstream file2("output.hex");   //f2 represents the file in which output is to be printed
 
-        string ins;
+        string ins;//store the instruction
         int line = 1;
 
         while(getline(file1,ins))
@@ -807,11 +807,11 @@ int main()                                  // Function main
                              }
                          }
                       
-                      ins.erase(0,remc);
+                      ins.erase(0,remc);// if label present , we will clear it from the line using erase 
                   }
                 
                                 
-                string m;
+                string m;//this stores the operator that is to be performed with given operands
 
                 for(int i = 0; i < ins.size(); i++)
                    {
@@ -825,24 +825,25 @@ int main()                                  // Function main
                    }
 
              
-
+//from now on we will write a if ,else ifs and else conditionals 
+//this is segregating the operators to their corresponding group
              
                  if (ifrf(m))      // For R-Format instructions 
                     {
                         rftable[0] = s3("add", 0, 0);
                         rftable[1] = s3("sub", 0x0, 0x20);
                         rftable[2] = s3("xor", 0x4, 0x00);
-                        rftable[3] = s3("or", 0x6, 0x00);
+                        rftable[3] = s3("or", 0x6, 0x00);           //loads instructions and their corresponding f3,f7
                         rftable[4] = s3("and", 0x7, 0x00);
                         rftable[5] = s3("sll", 0x1, 0x00);
                         rftable[6] = s3("srl", 0x5, 0x00);
                         rftable[7] = s3("sra", 0x5, 0x20);
 
-                        s3 data("0", 0, 0);
+                        s3 data("0", 0, 0);//stores the data of the operator in the line 
 
                         int k = 0;
-                        string rd, rs1, rs2;
-                        int rdi = -1, rs1i = -1, rs2i = -1;
+                        string rd, rs1, rs2;//registers
+                        int rdi = -1, rs1i = -1, rs2i = -1;//their corresponding values will get stored here
 
                         for (; k < ins.size(); k++)
                             {
@@ -859,7 +860,7 @@ int main()                                  // Function main
                                     {
                                         k+=2;
                                         break;
-                                    }
+                                    }           
 
                                 rd.push_back(ins[k]);
                             }
