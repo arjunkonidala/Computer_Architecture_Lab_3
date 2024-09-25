@@ -5,7 +5,7 @@
 
 using namespace std;
 
-map<string,int> ll ;
+map<string,int> ll ; 
 
 string decimaltobinary(int num,int size)   // Function that converts a decimal number() into binary string of particular size().
           {
@@ -1644,14 +1644,19 @@ int main()                                  // Function main
 
                             int r1=0;
                                // cout << r;
+                              int z=0;
 
                             for(int i=0; i<65; i++)
                                {
                                   if(aliastable[i].a == r)
                                     {
-                                       r1 = aliastable[i].b;
+                                       r1 = aliastable[i].b;z=1;
                                     }
-                               } 
+                               }
+                             if(z!=1){
+                                       cout<<"error in the registers of line"<<line<<endl;
+                                       return 0;
+                             }
                             
                             // cout << r1;
                             
@@ -1770,16 +1775,20 @@ int main()                                  // Function main
                                   r.push_back(ins[k]);                                
                                 }
 
-                            int r1=0;
+                            int r1=0;int z=0;
                            
 
                             for(int i=0; i<65; i++)
                                {
                                   if(aliastable[i].a == r)
                                     {
-                                       r1 = aliastable[i].b;
+                                       r1 = aliastable[i].b;z=1;
                                     }
                                } 
+                             if(z!=1){
+                                       cout<<"error in the registers of line"<<line<<endl;
+                                       return 0;
+                             }    
                             
                             
                             
